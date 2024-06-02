@@ -49,4 +49,20 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_login">Login</string>
+    <string name="title_register">Register</string>
+    <string name="title_continue_as_guest">Continue as guest</string>
+    <string name="welcome_hi">Hi,</string>
+    <string name="welcome_to_herbaguide">Welcome to HerbaGuide! 🌿</string>
+    <string name="welcome_tagline">Discover the Power of Nature at Your Fingertips.</string>
+    <string name="welcome_title_menu2">What Do You Get at HerbaGuide?</string>
+    <string name="welcome_menu2_point1">Quick Identification</string>
+    <string name="welcome_menu2_point1_desc">Simply take a photo of the plant, and let HerbaGuide identify it for you.</string>
+    <string name="welcome_menu2_point2">Full Information</string>
+    <string name="welcome_menu2_point2_desc">Get in-depth knowledge about the benefits, uses, and processing of herbal plants.</string>
+    <string name="welcome_menu2_point3">Practical Guide</string>
+    <string name="welcome_menu2_point3_desc">Find herbal recipes and step-by-step guides for your natural health.</string>
+    <string name="image_welcome">Image Welcome</string>
+    <string name="welcome_title_menu3">Let\'s take care of our health together by returning to nature. \n\nExplore, learn, and utilize herbs for your well-being!</string>
+    <string name="title_skip">Skip</string>
 </resources>

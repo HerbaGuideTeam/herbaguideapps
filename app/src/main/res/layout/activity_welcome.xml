@@ -1,10 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.welcome.WelcomeActivity">
+    app:layoutDescription="@xml/activity_welcome_scene"
+    tools:context=".ui.welcome.WelcomeActivity"
+    tools:ignore="UnusedAttribute" >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/logoMenu1"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/image_welcome"
+        android:src="@drawable/welcome1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.698" />
+
+    <TextView
+        android:id="@+id/welcome_hi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_hi"
+        android:textSize="36sp"
+        android:textColor="?android:colorPrimary"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@id/logoMenu1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/logoMenu1" />
+
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_to_herbaguide"
+        android:textColor="?android:colorPrimary"
+        android:textSize="45sp"
+        android:lineHeight="52dp"
+        app:layout_constraintStart_toStartOf="@id/logoMenu1"
+        app:layout_constraintTop_toBottomOf="@id/welcome_hi"
+        app:layout_constraintEnd_toEndOf="@id/logoMenu1" />
+
+    <TextView
+        android:id="@+id/welcome_tagline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_tagline"
+        android:textColor="?android:colorPrimary"
+        android:textSize="32sp"
+        android:lineHeight="40dp"
+        app:layout_constraintStart_toStartOf="@id/logoMenu1"
+        app:layout_constraintTop_toBottomOf="@id/welcome_message"
+        app:layout_constraintEnd_toEndOf="@id/logoMenu1" />
+
+    <TextView
+        android:id="@+id/welcome_title_menu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="72dp"
+        android:text="@string/welcome_title_menu2"
+        android:textColor="?android:colorPrimary"
+        android:textSize="22sp"
+        android:lineHeight="28dp"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcome_point1_menu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="16sp"
+        android:lineHeight="24dp"
+        android:text="@string/welcome_menu2_point1"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_title_menu2"
+        app:layout_constraintStart_toEndOf="@id/menu2_point"
+        app:layout_constraintEnd_toEndOf="@id/welcome_title_menu2" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu2_point"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:altSrc="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/welcome_title_menu2"
+        app:layout_constraintTop_toTopOf="@id/welcome_point1_menu2"
+        app:layout_constraintBottom_toBottomOf="@id/welcome_point1_menu2"
+        app:srcCompat="@drawable/ic_circle"
+        app:tint="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/welcome_point1_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:lineHeight="20dp"
+        android:text="@string/welcome_menu2_point1_desc"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_point1_menu2"
+        app:layout_constraintStart_toStartOf="@id/welcome_point1_menu2"
+        app:layout_constraintEnd_toEndOf="@id/welcome_point1_menu2" />
+
+    <TextView
+        android:id="@+id/welcome_point2_menu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="16sp"
+        android:lineHeight="24dp"
+        android:text="@string/welcome_menu2_point2"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_point1_desc"
+        app:layout_constraintStart_toEndOf="@id/menu2_point2"
+        app:layout_constraintEnd_toEndOf="@id/welcome_point1_desc" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu2_point2"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:altSrc="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/menu2_point"
+        app:layout_constraintTop_toTopOf="@id/welcome_point2_menu2"
+        app:layout_constraintBottom_toBottomOf="@id/welcome_point2_menu2"
+        app:srcCompat="@drawable/ic_circle"
+        app:tint="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/welcome_point2_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:lineHeight="20dp"
+        android:text="@string/welcome_menu2_point2_desc"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_point2_menu2"
+        app:layout_constraintStart_toStartOf="@id/welcome_point2_menu2"
+        app:layout_constraintEnd_toEndOf="@id/welcome_point2_menu2" />
+
+    <TextView
+        android:id="@+id/welcome_point3_menu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="16sp"
+        android:lineHeight="24dp"
+        android:text="@string/welcome_menu2_point3"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_point2_desc"
+        app:layout_constraintStart_toEndOf="@id/menu2_point3"
+        app:layout_constraintEnd_toEndOf="@id/welcome_point2_desc" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu2_point3"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:altSrc="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/menu2_point2"
+        app:layout_constraintTop_toTopOf="@id/welcome_point3_menu2"
+        app:layout_constraintBottom_toBottomOf="@id/welcome_point3_menu2"
+        app:srcCompat="@drawable/ic_circle"
+        app:tint="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/welcome_point3_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:lineHeight="20dp"
+        android:text="@string/welcome_menu2_point3_desc"
+        android:textColor="?android:colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/welcome_point3_menu2"
+        app:layout_constraintStart_toStartOf="@id/welcome_point3_menu2"
+        app:layout_constraintEnd_toEndOf="@id/welcome_point3_menu2" />
+
+    <ImageView
+        android:id="@+id/logoMenu2"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/image_welcome"
+        android:src="@drawable/welcome1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.698" />
+
+    <TextView
+        android:id="@+id/welcome_menu3_tagline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_title_menu3"
+        android:textSize="28sp"
+        android:lineHeight="36dp"
+        android:textColor="?android:colorPrimary"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@id/logoMenu2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/logoMenu2"
+         />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        app:altSrc="@drawable/ic_rectangle"
+        app:layout_constraintEnd_toStartOf="@+id/menu2"
+        app:layout_constraintBottom_toBottomOf="@id/menu2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:srcCompat="@drawable/ic_rectangle_full"
+        app:tint="?colorSecondary" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="72dp"
+        app:altSrc="@drawable/ic_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_rectangle_full"
+        app:tint="?colorSecondary" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        app:altSrc="@drawable/ic_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/menu2"
+        app:layout_constraintStart_toEndOf="@id/menu2"
+        app:srcCompat="@drawable/ic_rectangle_full"
+        app:tint="?colorSecondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_skip"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_skip"
+        app:layout_constraintTop_toBottomOf="@id/menu2"
+        tools:layout_editor_absoluteX="162dp" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
