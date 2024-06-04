@@ -14,6 +14,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "BASE_URL", "\"https://project-python-firebaseauth-fastapi-hsnr7iaoja-et.a.run.app/\"")
+        buildConfigField("String", "NEWS_BASE_URL", "\"https://newsapi.org/v2/\"")
+        buildConfigField("String", "NEWS_KEY", "\"c60779ea36574338a36700587effb70f\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -57,4 +62,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.jetbrains.kotlinx.coroutines.android)
     implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.glide)
+
+    implementation(libs.androidx.paging.runtime.ktx)
 }
