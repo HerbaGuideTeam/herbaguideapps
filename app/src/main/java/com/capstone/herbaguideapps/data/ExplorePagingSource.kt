@@ -18,12 +18,16 @@ class ExplorePagingSource(private val apiService: ApiService) : PagingSource<Int
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticlesItem> {
         return try {
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = apiService.getHerbalNews(page = position, pageSize = params.loadSize, apikey = BuildConfig.NEWS_KEY)
+            val responseData = apiService.getHerbalNews(
+                page = position,
+                pageSize = params.loadSize,
+                apikey = BuildConfig.NEWS_KEY
+            )
 
             Log.d("ExplorePagingSource", "load: ${responseData.status}")
             LoadResult.Page(
                 data = responseData.articles,
-                prevKey =if (position == INITIAL_PAGE_INDEX) null else position - 1,
+                prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
                 nextKey = if (responseData.articles.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {

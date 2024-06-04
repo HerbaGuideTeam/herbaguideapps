@@ -19,6 +19,7 @@ object ApiConfig {
     private val client: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build()
+
     fun getAuthServices(): ApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -50,6 +51,7 @@ object ApiConfig {
 
         return retrofit.create(ApiService::class.java)
     }
+
     fun getNewsApiService(): ApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.NEWS_BASE_URL)

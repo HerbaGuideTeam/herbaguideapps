@@ -1,16 +1,16 @@
 package com.capstone.herbaguideapps.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.herbaguideapps.databinding.ItemListExploreBinding
 import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
+import com.capstone.herbaguideapps.databinding.ItemListExploreBinding
 
-class ListExploreAdapter: PagingDataAdapter<ArticlesItem, ListExploreAdapter.ViewHolder>(DIFF_CALLBACK) {
+class ListExploreAdapter :
+    PagingDataAdapter<ArticlesItem, ListExploreAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -20,7 +20,6 @@ class ListExploreAdapter: PagingDataAdapter<ArticlesItem, ListExploreAdapter.Vie
 
     class ViewHolder(private val binding: ItemListExploreBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
         fun bind(article: ArticlesItem) {
             binding.txtTitle.text = article.title
             Glide.with(itemView)

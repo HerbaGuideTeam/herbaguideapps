@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +13,10 @@ import com.capstone.herbaguideapps.adapter.GridHistoryAdapter
 import com.capstone.herbaguideapps.adapter.ListExploreAdapter
 import com.capstone.herbaguideapps.data.local.HistoryEntity
 import com.capstone.herbaguideapps.data.local.dummyHistory
+import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
 import com.capstone.herbaguideapps.databinding.FragmentHomeBinding
 import com.capstone.herbaguideapps.ui.explore.ExploreViewModel
 import com.capstone.herbaguideapps.utlis.ViewModelFactory
-import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
 
 class HomeFragment : Fragment() {
 
@@ -50,7 +49,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun showDataHistory() {
-        val layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvHistory.layoutManager = layoutManager
 
         val adapter = GridHistoryAdapter()
