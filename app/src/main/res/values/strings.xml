@@ -66,4 +66,10 @@
     <string name="welcome_title_menu3">Let\'s take care of our health together by returning to nature. \n\nExplore, learn, and utilize herbs for your well-being!</string>
     <string name="title_skip">Skip</string>
     <string name="image_explore">Image Explore</string>
+    <string name="welcome_back_glad_to_see_you_again">Welcome back! Glad to see you, Again!</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="don_t_have_an_account_register_now">Don’t have an account? Register Now</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
 </resources>
