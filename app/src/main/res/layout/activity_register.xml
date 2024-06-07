@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.welcome.register.RegisterActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_back"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:icon="@drawable/ic_arrow_back_48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_welcome_back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/come_join_us_and_get_the_benefits"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="@id/edl_name"
+        app:layout_constraintEnd_toEndOf="@id/edl_name"
+        app:layout_constraintBottom_toTopOf="@id/edl_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edl_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/input_full_name"
+        app:layout_constraintStart_toStartOf="@id/edl_email"
+        app:layout_constraintBottom_toTopOf="@id/edl_email"
+        app:layout_constraintEnd_toEndOf="@id/edl_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_name"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edl_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_email"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edl_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/input_password"
+        app:passwordToggleEnabled="true"
+        app:layout_constraintStart_toStartOf="@id/edl_email"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="@id/edl_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_password"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edl_confirm_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/input_confirm_your_password"
+        app:passwordToggleEnabled="true"
+        app:layout_constraintStart_toStartOf="@id/edl_password"
+        app:layout_constraintTop_toBottomOf="@id/edl_password"
+        app:layout_constraintEnd_toEndOf="@id/edl_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_confirm_password"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_register"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:cornerRadius="8dp"
+        android:text="@string/title_register"
+        app:layout_constraintStart_toStartOf="@id/edl_confirm_password"
+        app:layout_constraintEnd_toEndOf="@id/edl_confirm_password"
+        app:layout_constraintTop_toBottomOf="@id/edl_confirm_password"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_google"/>
+
+    <TextView
+        android:id="@+id/txt_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or"
+        app:layout_constraintTop_toBottomOf="@id/btn_register"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_google"
+        app:layout_constraintStart_toStartOf="@id/btn_register"
+        app:layout_constraintEnd_toEndOf="@id/btn_register" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_sign_google"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_or"
+        app:layout_constraintStart_toStartOf="@id/edl_password"
+        app:layout_constraintEnd_toEndOf="@id/edl_password"
+        app:layout_constraintBottom_toTopOf="@id/layout_login"/>
+
+    <LinearLayout
+        android:id="@+id/layout_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/have_an_account" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start|center"
+            android:text="@string/title_login"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="328dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

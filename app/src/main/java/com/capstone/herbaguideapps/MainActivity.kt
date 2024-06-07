@@ -3,16 +3,24 @@ package com.capstone.herbaguideapps
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.capstone.herbaguideapps.databinding.ActivityMainBinding
 import com.capstone.herbaguideapps.ui.welcome.WelcomeActivity
+import com.capstone.herbaguideapps.ui.welcome.login.LoginViewModel
+import com.capstone.herbaguideapps.utlis.AuthViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val loginViewModel by viewModels<LoginViewModel> {
+        AuthViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val isSession = intent.getBooleanExtra(EXTRA_SESSION, false)
-
-        if (!isSession) {
-            startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
-            finish()
-        }
+        setupSession()
 
         val navigationView = binding.navView
         val navHostFragment =
@@ -44,12 +47,19 @@ class MainActivity : AppCompatActivity() {
         navigationView.setupWithNavController(navController)
     }
 
-    companion object {
-        const val EXTRA_SESSION = "extra_session"
+    private fun setupSession() {
+        loginViewModel.getSession().observe(this) { session ->
+            Log.d("MainActivity", "setupSession: ${session.token} ${session.isLogin}")
+            if (!session.isLogin) {
+                startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
+                finish()
+            }
+        }
+    }
 
-        fun start(context: Context, isLogin: Boolean) {
+    companion object {
+        fun start(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(EXTRA_SESSION, isLogin)
             context.startActivity(intent)
         }
     }

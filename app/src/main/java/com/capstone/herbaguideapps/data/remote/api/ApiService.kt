@@ -1,7 +1,13 @@
 package com.capstone.herbaguideapps.data.remote.api
 
+import com.capstone.herbaguideapps.data.remote.LoginBody
+import com.capstone.herbaguideapps.data.remote.RegisterBody
+import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.NewsResponse
+import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
@@ -13,5 +19,14 @@ interface ApiService {
         @Query("page") page: Int = 1
     ): NewsResponse
 
+    @POST("login")
+    fun login(
+        @Body loginBody: LoginBody
+    ) : Call<AuthResponse>
+
+    @POST("signup")
+    fun register(
+        @Body registerBody: RegisterBody
+    ) : Call<AuthResponse>
 
 }
