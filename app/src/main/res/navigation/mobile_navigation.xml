@@ -22,4 +22,5 @@
         android:name="com.capstone.herbaguideapps.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
+
 </navigation>

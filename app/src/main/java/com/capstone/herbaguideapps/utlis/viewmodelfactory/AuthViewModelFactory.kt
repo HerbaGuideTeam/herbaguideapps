@@ -1,4 +1,4 @@
-package com.capstone.herbaguideapps.utlis
+package com.capstone.herbaguideapps.utlis.viewmodelfactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -13,7 +13,7 @@ class AuthViewModelFactory private constructor(
 ) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return when{
+        return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(authRepository) as T
             }
@@ -34,7 +34,7 @@ class AuthViewModelFactory private constructor(
         fun getInstance(context: Context): AuthViewModelFactory {
             if (INSTANCE == null) {
                 synchronized(AuthViewModelFactory::class.java) {
-                    INSTANCE =AuthViewModelFactory(Injection.provideAuthRepository(context))
+                    INSTANCE = AuthViewModelFactory(Injection.provideAuthRepository(context))
                 }
             }
             return INSTANCE as AuthViewModelFactory

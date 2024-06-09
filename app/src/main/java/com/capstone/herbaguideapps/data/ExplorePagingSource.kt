@@ -1,6 +1,5 @@
 package com.capstone.herbaguideapps.data
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.capstone.herbaguideapps.BuildConfig
@@ -24,14 +23,12 @@ class ExplorePagingSource(private val apiService: ApiService) : PagingSource<Int
                 apikey = BuildConfig.NEWS_KEY
             )
 
-            Log.d("ExplorePagingSource", "load: ${responseData.status}")
             LoadResult.Page(
                 data = responseData.articles,
                 prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
                 nextKey = if (responseData.articles.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {
-            Log.d("ExplorePagingSource", "load: ${e.message}")
             return LoadResult.Error(e)
         }
     }

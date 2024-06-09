@@ -18,7 +18,7 @@ import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginViewModel
 import com.capstone.herbaguideapps.ui.welcome.register.RegisterActivity
-import com.capstone.herbaguideapps.utlis.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
 
 class WelcomeLoginActivity : AppCompatActivity() {
 
@@ -42,7 +42,8 @@ class WelcomeLoginActivity : AppCompatActivity() {
         binding = ActivityWelcomeLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(finishReceiver, IntentFilter("finish_welcome_activity"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(finishReceiver, IntentFilter("finish_welcome_activity"))
 
         setupAction()
 
@@ -71,7 +72,7 @@ class WelcomeLoginActivity : AppCompatActivity() {
             btnGuest.setOnClickListener {
                 loginViewModel.saveSession(
                     SessionModel(
-                        "guest",
+                        "Guest",
                         "",
                         true,
                         "",

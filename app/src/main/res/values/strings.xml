@@ -81,4 +81,6 @@
     <string name="come_join_us_and_get_the_benefits">Come join us and get the benefits</string>
     <string name="or">Or</string>
     <string name="have_an_account">Have an account?</string>
+    <string name="content_image_plant">Image Plant</string>
+    <string name="title_home_name">Hi, %1$s</string>
 </resources>

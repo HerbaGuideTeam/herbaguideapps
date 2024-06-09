@@ -60,4 +60,13 @@ object ApiConfig {
             .build()
         return retrofit.create(ApiService::class.java)
     }
+
+    fun getPredictApiService(): ApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://classification-api.dicoding.dev/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+        return retrofit.create(ApiService::class.java)
+    }
 }

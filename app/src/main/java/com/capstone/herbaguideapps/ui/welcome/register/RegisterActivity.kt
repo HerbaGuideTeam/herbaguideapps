@@ -15,7 +15,7 @@ import com.capstone.herbaguideapps.data.remote.RegisterBody
 import com.capstone.herbaguideapps.databinding.ActivityRegisterBinding
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity
-import com.capstone.herbaguideapps.utlis.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -23,6 +23,7 @@ class RegisterActivity : AppCompatActivity() {
     private val registerViewModel by viewModels<RegisterViewModel> {
         AuthViewModelFactory.getInstance(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

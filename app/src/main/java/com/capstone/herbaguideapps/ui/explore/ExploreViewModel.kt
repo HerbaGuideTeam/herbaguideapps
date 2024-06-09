@@ -13,4 +13,5 @@ class ExploreViewModel(private val exploreRepository: ExploreRepository) : ViewM
     val listExplore: LiveData<PagingData<ArticlesItem>> =
         exploreRepository.getHeadlineNews().cachedIn(viewModelScope)
 
+    fun getTopHeadline() = exploreRepository.getTopHeadlineNews()
 }

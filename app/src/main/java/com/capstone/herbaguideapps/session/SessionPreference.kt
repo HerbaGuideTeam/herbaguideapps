@@ -20,6 +20,12 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
         }
     }
 
+    fun isLoggedIn(): Flow<Boolean> {
+        return dataStore.data.map { preference: Preferences ->
+            preference[STATE_KEY] ?: false
+        }
+    }
+
     fun getSession(): Flow<SessionModel> {
         return dataStore.data.map { preference: Preferences ->
             SessionModel(
