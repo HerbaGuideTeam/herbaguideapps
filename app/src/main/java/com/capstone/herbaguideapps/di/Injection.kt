@@ -8,6 +8,9 @@ import com.capstone.herbaguideapps.data.repos.PredictRepository
 import com.capstone.herbaguideapps.data.repos.SessionRepository
 import com.capstone.herbaguideapps.session.SessionPreferences
 import com.capstone.herbaguideapps.session.dataStore
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.runBlocking
 
 object Injection {
     fun provideExploreRepository(context: Context): ExploreRepository {
@@ -22,7 +25,9 @@ object Injection {
     }
 
     fun providePredictRepository(context: Context): PredictRepository {
-        val apiService = ApiConfig.getPredictApiService()
+        val sessionPreferences = SessionPreferences.getInstance(context.dataStore)
+        val token = runBlocking { sessionPreferences.getToken().first() }
+        val apiService = ApiConfig.getApiServices(token)
         return PredictRepository.getInstance(apiService)
     }
 

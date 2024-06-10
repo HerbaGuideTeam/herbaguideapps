@@ -8,7 +8,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    private const val BASE_URL = BuildConfig.BASE_URL
 
     private val loggingInterceptor = if (BuildConfig.DEBUG) {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
@@ -22,7 +21,7 @@ object ApiConfig {
 
     fun getAuthServices(): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.AUTH_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -44,7 +43,7 @@ object ApiConfig {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(clientWithAuthInterceptor)
             .build()

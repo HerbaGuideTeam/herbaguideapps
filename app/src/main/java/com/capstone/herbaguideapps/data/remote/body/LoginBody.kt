@@ -1,4 +1,4 @@
-package com.capstone.herbaguideapps.data.remote
+package com.capstone.herbaguideapps.data.remote.body
 
 data class LoginBody(
     var email: String,

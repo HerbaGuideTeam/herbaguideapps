@@ -13,7 +13,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.capstone.herbaguideapps.MainActivity
 import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.LoginBody
+import com.capstone.herbaguideapps.data.remote.body.LoginBody
 import com.capstone.herbaguideapps.databinding.ActivityLoginBinding
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.register.RegisterActivity
@@ -33,8 +33,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         binding.btnBack.setOnClickListener {
             WelcomeLoginActivity.start(this@LoginActivity)

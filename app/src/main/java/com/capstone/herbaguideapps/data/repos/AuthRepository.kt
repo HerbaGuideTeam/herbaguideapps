@@ -3,9 +3,10 @@ package com.capstone.herbaguideapps.data.repos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.LoginBody
-import com.capstone.herbaguideapps.data.remote.RegisterBody
+import com.capstone.herbaguideapps.data.remote.body.LoginBody
+import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.api.ApiService
+import com.capstone.herbaguideapps.data.remote.body.LogoutBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.session.SessionPreferences
@@ -37,7 +38,7 @@ class AuthRepository(
     suspend fun login(loginBody: LoginBody): Result<AuthResponse> {
         return try {
             val authResponse = withContext(Dispatchers.IO) {
-                suspendCancellableCoroutine<AuthResponse> { continuation ->
+                suspendCancellableCoroutine{ continuation ->
                     val client = apiService.login(loginBody)
                     client.enqueue(object : Callback<AuthResponse> {
                         override fun onResponse(
@@ -90,6 +91,26 @@ class AuthRepository(
     fun register(registerBody: RegisterBody): LiveData<Result<AuthResponse>> {
         result.value = Result.Loading
         val client = apiService.register(registerBody)
+        client.enqueue(object : Callback<AuthResponse> {
+            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                if (response.isSuccessful) {
+                    result.value = Result.Success(response.body()!!)
+                } else {
+                    result.value = Result.Error(response.errorBody()!!.string())
+                }
+            }
+
+            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                result.value = Result.Error(t.message.toString())
+            }
+
+        })
+        return result
+    }
+
+    fun logout(logoutBody: LogoutBody): LiveData<Result<AuthResponse>> {
+        result.value = Result.Loading
+        val client = apiService.logout(logoutBody)
         client.enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {

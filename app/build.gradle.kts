@@ -18,8 +18,9 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"https://project-python-firebaseauth-fastapi-hsnr7iaoja-et.a.run.app/\""
+            "\"https://ml-api-7vsvejtouq-et.a.run.app/\""
         )
+        buildConfigField("String", "AUTH_URL", "\"https://auth-api-7vsvejtouq-et.a.run.app/\"")
         buildConfigField("String", "NEWS_BASE_URL", "\"https://newsapi.org/v2/\"")
         buildConfigField("String", "NEWS_KEY", "\"c60779ea36574338a36700587effb70f\"")
 
@@ -80,4 +81,6 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
 
     implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.play.services.auth)
 }

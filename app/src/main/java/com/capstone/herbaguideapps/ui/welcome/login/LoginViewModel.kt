@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.LoginBody
+import com.capstone.herbaguideapps.data.remote.body.LoginBody
+import com.capstone.herbaguideapps.data.remote.body.LogoutBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.repos.AuthRepository
 import com.capstone.herbaguideapps.session.SessionModel
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class LoginViewModel(
     private val authRepository: AuthRepository
@@ -26,6 +28,8 @@ class LoginViewModel(
             _loginResult.postValue(result)
         }
     }
+
+    fun logout(logoutBody: LogoutBody) = authRepository.logout(logoutBody)
 
     fun saveSession(sessionModel: SessionModel) {
         viewModelScope.launch {

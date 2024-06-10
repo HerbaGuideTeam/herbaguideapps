@@ -1,7 +1,8 @@
 package com.capstone.herbaguideapps.data.remote.api
 
-import com.capstone.herbaguideapps.data.remote.LoginBody
-import com.capstone.herbaguideapps.data.remote.RegisterBody
+import com.capstone.herbaguideapps.data.remote.body.LoginBody
+import com.capstone.herbaguideapps.data.remote.body.LogoutBody
+import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.FileUploadResponse
 import com.capstone.herbaguideapps.data.remote.response.NewsResponse
@@ -34,13 +35,19 @@ interface ApiService {
         @Body loginBody: LoginBody
     ): Call<AuthResponse>
 
+
+    @POST("logout")
+    fun logout(
+        @Body logoutBody: LogoutBody
+    ): Call<AuthResponse>
+
     @POST("signup")
     fun register(
         @Body registerBody: RegisterBody
     ): Call<AuthResponse>
 
     @Multipart
-    @POST("skin-cancer/predict")
+    @POST("predict_image\n")
     fun uploadImage(
         @Part file: MultipartBody.Part
     ): Call<FileUploadResponse>

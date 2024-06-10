@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 class SessionRepository(
     private val sessionPreferences: SessionPreferences
 ) {
+    fun getToken(): Flow<String> {
+        return sessionPreferences.getToken()
+    }
     fun getSession(): Flow<SessionModel> {
         return sessionPreferences.getSession()
     }

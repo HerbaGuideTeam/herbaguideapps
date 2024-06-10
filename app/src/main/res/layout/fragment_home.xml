@@ -7,6 +7,14 @@
     tools:context=".ui.home.HomeFragment"
     tools:ignore="UnusedAttribute">
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/linearProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="top"
+        android:visibility="gone" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,14 +27,37 @@
             android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txt_welcome"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:lineHeight="36dp"
-                android:text="@string/title_home_name"
-                android:textSize="28sp" />
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/txt_welcome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="36dp"
+                    android:text="@string/title_home_name"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btn_profile"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_profile"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:iconGravity="textStart"
+                    app:icon="@drawable/ic_person_48dp"
+                    app:layout_constraintTop_toTopOf="@id/txt_welcome"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_welcome" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_scan"
