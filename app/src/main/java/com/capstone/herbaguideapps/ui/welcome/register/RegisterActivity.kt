@@ -3,6 +3,7 @@ package com.capstone.herbaguideapps.ui.welcome.register
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -31,23 +32,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener {
-            WelcomeLoginActivity.start(this@RegisterActivity)
-            finish()
-        }
-
-        binding.btnLogin.setOnClickListener {
-            LoginActivity.start(this@RegisterActivity)
-            finish()
-        }
-
-        binding.btnRegister.setOnClickListener {
-            processRegister()
-        }
-
-        binding.btnSignGoogle.setOnClickListener {
-
-        }
+        setupAction()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -56,38 +41,87 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupAction() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                WelcomeLoginActivity.start(this@RegisterActivity)
+                finish()
+            }
+
+            btnLogin.setOnClickListener {
+                LoginActivity.start(this@RegisterActivity)
+                finish()
+            }
+
+            btnRegister.setOnClickListener {
+                processRegister()
+            }
+        }
+    }
+
     private fun processRegister() {
-        val user = binding.edName.text.toString()
+        val name = binding.edName.text.toString()
         val email = binding.edEmail.text.toString()
         val password = binding.edPassword.text.toString()
+        val confirmPassword = binding.edConfirmPassword.text.toString()
+
+        if (email.isEmpty()) {
+            binding.edlEmail.error = getString(R.string.msg_email_must_filled)
+            return
+        }
+
+        if (password.isEmpty()) {
+            binding.edlPassword.error = getString(R.string.msg_password_cannot_be_blank)
+            return
+        }
+
+        if (name.isEmpty()) {
+            binding.edlName.error = getString(R.string.name_cannot_be_blank)
+            return
+        }
+
+        if (confirmPassword.isEmpty()) {
+            binding.edlConfirmPassword.error = getString(R.string.confirm_password_cannot_be_blank)
+            return
+        }
+
+        if (password != confirmPassword) {
+            binding.edlConfirmPassword.error = getString(R.string.password_not_same)
+            return
+        }
 
         val body = RegisterBody(
-            email, user, password
+            email, name, password
         )
-        registerViewModel.register(body).observe(this) { result ->
+
+        registerViewModel.register(body)
+        registerViewModel.authResult.observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-
+                        binding.linearProgress.visibility = View.VISIBLE
                     }
 
                     is Result.Success -> {
-                        Toast.makeText(
-                            this,
-                            result.data.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        binding.linearProgress.visibility = View.GONE
+                        showToast(result.data?.message ?: "Success")
+
                         LoginActivity.start(this)
                         finish()
                     }
 
                     is Result.Error -> {
-                        Toast.makeText(this, result.error[0].toString(), Toast.LENGTH_SHORT).show()
+                        binding.linearProgress.visibility = View.GONE
+                        showToast(result.error)
                     }
                 }
             }
 
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

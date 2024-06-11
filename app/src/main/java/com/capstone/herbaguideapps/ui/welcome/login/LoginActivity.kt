@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -56,59 +56,74 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.btnBack.setOnClickListener {
-            WelcomeLoginActivity.start(this@LoginActivity)
-            finish()
-        }
-
-        binding.btnRegister.setOnClickListener {
-            RegisterActivity.start(this@LoginActivity)
-            finish()
-        }
-
-        binding.btnLogin.setOnClickListener {
-            val email = binding.edEmail.text.toString()
-            val password = binding.edPassword.text.toString()
-
-            val login = LoginBody(
-                email, password
-            )
-
-            loginViewModel.login(login)
-            loginViewModel.loginResult.observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-
-                        }
-
-                        is Result.Success -> {
-
-                            setupSession()
-
-                        }
-
-                        is Result.Error -> {
-                            Toast.makeText(
-                                this,
-                                "Login Failed: ${result.error}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-
-            }
-        }
-
-        binding.btnSignGoogle.setOnClickListener {
-            signIn()
-        }
+        setupAction()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    private fun setupAction() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                WelcomeLoginActivity.start(this@LoginActivity)
+                finish()
+            }
+
+            btnRegister.setOnClickListener {
+                RegisterActivity.start(this@LoginActivity)
+                finish()
+            }
+
+            btnLogin.setOnClickListener {
+                val email = edEmail.text.toString()
+                val password = edPassword.text.toString()
+
+                if (email.isEmpty()) {
+                    edlEmail.error = getString(R.string.msg_email_must_filled)
+                    return@setOnClickListener
+                }
+
+                if (password.isEmpty()) {
+                    edlPassword.error = getString(R.string.msg_password_cannot_be_blank)
+                    return@setOnClickListener
+                }
+
+                val login = LoginBody(
+                    email, password
+                )
+
+                loginViewModel.login(login)
+                loginViewModel.loginResult.observe(this@LoginActivity) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                linearProgress.visibility = View.VISIBLE
+                            }
+
+                            is Result.Success -> {
+
+                                linearProgress.visibility = View.GONE
+                                setupSession()
+
+                            }
+
+                            is Result.Error -> {
+                                linearProgress.visibility = View.GONE
+                                showToast(result.error)
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            btnSignGoogle.setOnClickListener {
+                signIn()
+            }
+
         }
     }
 
@@ -142,7 +157,8 @@ class LoginActivity : AppCompatActivity() {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
-                        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                        val googleIdTokenCredential =
+                            GoogleIdTokenCredential.createFrom(credential.data)
                         firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
@@ -167,13 +183,16 @@ class LoginActivity : AppCompatActivity() {
                     val user: FirebaseUser? = auth.currentUser
 
                     if (user != null) {
-                        loginViewModel.saveSession(SessionModel(
-                            user.displayName.toString(),
-                            user.email.toString(),
-                            true,
-                            idToken,
-                            false
-                        ))
+                        loginViewModel.saveSession(
+                            SessionModel(
+                                user.displayName.toString(),
+                                user.email.toString(),
+                                true,
+                                idToken,
+                                isGuest = false,
+                                isGoogle = true
+                            )
+                        )
 
                         setupSession()
                     }
@@ -199,15 +218,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signOut() {
-
-        lifecycleScope.launch {
-            val credentialManager = CredentialManager.create(this@LoginActivity)
-            auth.signOut()
-            credentialManager.clearCredentialState(ClearCredentialStateRequest())
-            startActivity(Intent(this@LoginActivity, LoginActivity::class.java))
-            finish()
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

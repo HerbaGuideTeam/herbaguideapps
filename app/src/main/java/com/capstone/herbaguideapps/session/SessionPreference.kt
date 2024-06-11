@@ -27,7 +27,8 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
                 preference[EMAIL_KEY] ?: "",
                 preference[STATE_KEY] ?: false,
                 preference[TOKEN_KEY] ?: "",
-                preference[GUEST_KEY] ?: false
+                preference[GUEST_KEY] ?: false,
+                preference[GOOGLE_KEY] ?: false
             )
         }
     }
@@ -39,6 +40,7 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
             preference[STATE_KEY] = session.isLogin
             preference[TOKEN_KEY] = session.token
             preference[GUEST_KEY] = session.isGuest
+            preference[GOOGLE_KEY] = session.isGoogle
         }
     }
 
@@ -57,6 +59,7 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
         private val STATE_KEY = booleanPreferencesKey("state")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val GUEST_KEY = booleanPreferencesKey("guest")
+        private val GOOGLE_KEY = booleanPreferencesKey("google")
 
         fun getInstance(dataStore: DataStore<Preferences>): SessionPreferences {
             return INSTANCE ?: synchronized(this) {

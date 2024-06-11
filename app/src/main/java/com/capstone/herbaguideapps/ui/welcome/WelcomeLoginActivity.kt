@@ -76,7 +76,8 @@ class WelcomeLoginActivity : AppCompatActivity() {
                         "",
                         true,
                         "",
-                        true
+                        isGuest = true,
+                        isGoogle = false
                     )
                 )
 

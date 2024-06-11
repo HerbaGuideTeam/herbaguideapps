@@ -84,4 +84,12 @@
     <string name="content_image_plant">Image Plant</string>
     <string name="title_home_name">Hi, %1$s</string>
     <string name="googleWebID">828100792435-pfg1pvv2dlhmhdqbvvh4sl8ccji6dm6g.apps.googleusercontent.com</string>
+
+    <string name="msg_email_must_filled">Email must filled</string>
+    <string name="msg_password_cannot_be_blank">Password cannot be blank</string>
+    <string name="invalid_email_address">Invalid email address</string>
+    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
+    <string name="name_cannot_be_blank">Name cannot be blank</string>
+    <string name="confirm_password_cannot_be_blank">Confirm password cannot be blank</string>
+    <string name="password_not_same">Password not same</string>
 </resources>

@@ -1,13 +1,14 @@
 package com.capstone.herbaguideapps.data.repos
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.LoginBody
-import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.api.ApiService
+import com.capstone.herbaguideapps.data.remote.body.LoginBody
 import com.capstone.herbaguideapps.data.remote.body.LogoutBody
+import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
+import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.session.SessionPreferences
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,11 @@ class AuthRepository(
     private val apiService: ApiService
 ) {
 
-    private val result = MediatorLiveData<Result<AuthResponse>>()
+    private val _authResult = MutableLiveData<Result<AuthResponse?>>()
+    val authResult: LiveData<Result<AuthResponse?>> = _authResult
+
+    private val _loginResult = MutableLiveData<Result<LoginResponse?>>()
+    val loginResult: LiveData<Result<LoginResponse?>> = _loginResult
 
     fun getSession(): Flow<SessionModel> {
         return sessionPreferences.getSession()
@@ -35,15 +40,16 @@ class AuthRepository(
         sessionPreferences.saveSession(sessionModel)
     }
 
-    suspend fun login(loginBody: LoginBody): Result<AuthResponse> {
-        return try {
-            val authResponse = withContext(Dispatchers.IO) {
-                suspendCancellableCoroutine{ continuation ->
+    suspend fun login(loginBody: LoginBody) {
+        _loginResult.postValue(Result.Loading)
+        try {
+            val loginResponse = withContext(Dispatchers.IO) {
+                suspendCancellableCoroutine<LoginResponse> { continuation ->
                     val client = apiService.login(loginBody)
-                    client.enqueue(object : Callback<AuthResponse> {
+                    client.enqueue(object : Callback<LoginResponse> {
                         override fun onResponse(
-                            call: Call<AuthResponse>,
-                            response: Response<AuthResponse>
+                            call: Call<LoginResponse>,
+                            response: Response<LoginResponse>
                         ) {
                             if (response.isSuccessful) {
                                 response.body()?.let {
@@ -52,14 +58,12 @@ class AuthRepository(
                                     ?: continuation.resumeWithException(Exception("Response body is null"))
                             } else {
                                 continuation.resumeWithException(
-                                    Exception(
-                                        response.errorBody()?.string() ?: "Unknown error"
-                                    )
+                                    Exception(response.errorBody()?.string() ?: "Unknown error")
                                 )
                             }
                         }
 
-                        override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                             continuation.resumeWithException(t)
                         }
                     })
@@ -71,61 +75,60 @@ class AuthRepository(
             }
 
             val sessionModel = SessionModel(
-                loginBody.email,
+                loginResponse.user.displayName,
                 loginBody.email,
                 true,
-                authResponse.token,
-                false
+                loginResponse.token,
+                isGuest = false,
+                isGoogle = false
             )
 
             withContext(Dispatchers.IO) {
                 sessionPreferences.saveSession(sessionModel)
             }
 
-            Result.Success(authResponse)
+            _loginResult.postValue(Result.Success(loginResponse))
         } catch (e: Exception) {
-            Result.Error(e.message ?: "Unknown error")
+            _loginResult.postValue(Result.Error(e.message ?: "Unknown error"))
         }
     }
 
-    fun register(registerBody: RegisterBody): LiveData<Result<AuthResponse>> {
-        result.value = Result.Loading
+    fun register(registerBody: RegisterBody) {
+        _authResult.value = Result.Loading
         val client = apiService.register(registerBody)
         client.enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {
-                    result.value = Result.Success(response.body()!!)
+                    _authResult.value = Result.Success(response.body()!!)
                 } else {
-                    result.value = Result.Error(response.errorBody()!!.string())
+                    _authResult.value = Result.Error(response.errorBody()!!.string())
                 }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                result.value = Result.Error(t.message.toString())
+                _authResult.value = Result.Error(t.message.toString())
             }
 
         })
-        return result
     }
 
-    fun logout(logoutBody: LogoutBody): LiveData<Result<AuthResponse>> {
-        result.value = Result.Loading
+    fun logout(logoutBody: LogoutBody) {
+        _authResult.value = Result.Loading
         val client = apiService.logout(logoutBody)
         client.enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {
-                    result.value = Result.Success(response.body()!!)
+                    _authResult.value = Result.Success(response.body()!!)
                 } else {
-                    result.value = Result.Error(response.errorBody()!!.string())
+                    _authResult.value = Result.Error(response.errorBody()!!.string())
                 }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                result.value = Result.Error(t.message.toString())
+                _authResult.value = Result.Error(t.message.toString())
             }
 
         })
-        return result
     }
 
     companion object {

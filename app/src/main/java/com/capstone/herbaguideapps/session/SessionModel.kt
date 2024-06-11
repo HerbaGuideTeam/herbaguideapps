@@ -5,5 +5,6 @@ data class SessionModel(
     val email: String,
     val isLogin: Boolean,
     val token: String,
-    val isGuest: Boolean
+    val isGuest: Boolean,
+    val isGoogle: Boolean
 )

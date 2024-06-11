@@ -5,6 +5,7 @@ import com.capstone.herbaguideapps.data.remote.body.LogoutBody
 import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.FileUploadResponse
+import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.data.remote.response.NewsResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -33,7 +34,7 @@ interface ApiService {
     @POST("login")
     fun login(
         @Body loginBody: LoginBody
-    ): Call<AuthResponse>
+    ): Call<LoginResponse>
 
 
     @POST("logout")

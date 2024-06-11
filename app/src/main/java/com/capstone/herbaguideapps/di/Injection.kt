@@ -9,7 +9,6 @@ import com.capstone.herbaguideapps.data.repos.SessionRepository
 import com.capstone.herbaguideapps.session.SessionPreferences
 import com.capstone.herbaguideapps.session.dataStore
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 object Injection {
