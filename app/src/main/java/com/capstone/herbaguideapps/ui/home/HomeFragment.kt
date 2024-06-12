@@ -17,19 +17,20 @@ import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.adapter.GridExploreAdapter
 import com.capstone.herbaguideapps.adapter.GridHistoryAdapter
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.local.HistoryEntity
-import com.capstone.herbaguideapps.data.local.dummyHistory
 import com.capstone.herbaguideapps.data.remote.body.LogoutBody
 import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
+import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.FragmentHomeBinding
 import com.capstone.herbaguideapps.session.SessionViewModel
 import com.capstone.herbaguideapps.ui.explore.ExploreViewModel
+import com.capstone.herbaguideapps.ui.history.HistoryViewModel
 import com.capstone.herbaguideapps.ui.identify.ModalBottomScanFragment
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginViewModel
 import com.capstone.herbaguideapps.utlis.ViewModelFactory
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.SessionViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.SessionViewModelFactory
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -55,6 +56,10 @@ class HomeFragment : Fragment() {
         ViewModelFactory.getInstance(requireActivity())
     }
 
+    private val historyViewModel by viewModels<HistoryViewModel> {
+        PredictViewModelFactory.getInstance(requireActivity())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,11 +80,29 @@ class HomeFragment : Fragment() {
             binding.txtWelcome.text = getString(R.string.title_home_name, session.name)
         }
 
+        historyViewModel.getHistory()
+        historyViewModel.history.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+
+                    }
+
+                    is Result.Success -> {
+                        showDataHistory(result.data.history)
+                    }
+
+                    is Result.Error -> {
+
+                    }
+                }
+            }
+        }
+
         binding.btnProfile.setOnClickListener {
             clearSession()
         }
 
-        showDataHistory()
         showDataExplore()
 
         return root
@@ -91,7 +114,7 @@ class HomeFragment : Fragment() {
                 val logoutBody = LogoutBody(session.token)
 
                 loginViewModel.logout(logoutBody)
-                loginViewModel.authResult.observe(viewLifecycleOwner) { result ->
+                loginViewModel.logoutResult.observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is Result.Loading -> {
                             binding.linearProgress.visibility = View.VISIBLE
@@ -101,10 +124,9 @@ class HomeFragment : Fragment() {
                             binding.linearProgress.visibility = View.GONE
                             Toast.makeText(
                                 requireActivity(),
-                                result.data?.message,
+                                result.data.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            sessionViewModel.logout()
                             WelcomeLoginActivity.start(requireActivity())
                             finishMainActivity()
                         }
@@ -143,15 +165,15 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun showDataHistory() {
+    private fun showDataHistory(list: List<HistoryItem>) {
         val layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvHistory.layoutManager = layoutManager
 
         val adapter = GridHistoryAdapter()
-        adapter.submitTrimmedList(dummyHistory)
+        adapter.submitTrimmedList(list)
         adapter.setOnItemClickCallback(object : GridHistoryAdapter.OnItemClickCallback {
-            override fun onItemClickCallBack(data: HistoryEntity) {
+            override fun onItemClickCallBack(data: HistoryItem) {
 
             }
         })

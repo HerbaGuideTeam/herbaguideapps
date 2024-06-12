@@ -1,4 +1,4 @@
-package com.capstone.herbaguideapps.utlis.viewmodelfactory
+package com.capstone.herbaguideapps.utlis.factory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

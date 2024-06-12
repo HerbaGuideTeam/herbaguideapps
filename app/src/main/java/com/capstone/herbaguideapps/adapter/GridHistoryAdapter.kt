@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.herbaguideapps.R
-import com.capstone.herbaguideapps.data.local.HistoryEntity
+import com.bumptech.glide.Glide
+import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.ItemHistoryGridBinding
 
 class GridHistoryAdapter :
-    ListAdapter<HistoryEntity, GridHistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<HistoryItem, GridHistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -19,7 +19,7 @@ class GridHistoryAdapter :
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun submitTrimmedList(list: List<HistoryEntity>) {
+    fun submitTrimmedList(list: List<HistoryItem>) {
         val trimmedList = if (list.size > 3) list.take(3) else list
         submitList(trimmedList)
     }
@@ -27,9 +27,12 @@ class GridHistoryAdapter :
     class ViewHolder(private val binding: ItemHistoryGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(history: HistoryEntity) {
-            binding.txtName.text = history.name
-            binding.ivHistory.setImageResource(R.drawable.welcome1)
+        fun bind(history: HistoryItem) {
+            val tanamanHerbal = history.tanamanHerbal
+            binding.txtName.text = tanamanHerbal.nama
+            Glide.with(itemView)
+                .load(tanamanHerbal.photoUrl)
+                .into(binding.ivHistory)
         }
     }
 
@@ -52,21 +55,21 @@ class GridHistoryAdapter :
     }
 
     interface OnItemClickCallback {
-        fun onItemClickCallBack(data: HistoryEntity)
+        fun onItemClickCallBack(data: HistoryItem)
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryEntity>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryItem>() {
             override fun areItemsTheSame(
-                oldItem: HistoryEntity,
-                newItem: HistoryEntity
+                oldItem: HistoryItem,
+                newItem: HistoryItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: HistoryEntity,
-                newItem: HistoryEntity
+                oldItem: HistoryItem,
+                newItem: HistoryItem
             ): Boolean {
                 return oldItem == newItem
             }

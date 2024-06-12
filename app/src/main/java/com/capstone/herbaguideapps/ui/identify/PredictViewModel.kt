@@ -7,6 +7,6 @@ import okhttp3.MultipartBody
 class PredictViewModel(
     private val predictRepository: PredictRepository
 ) : ViewModel() {
-    fun analyzeImage(part: MultipartBody.Part) =
-        predictRepository.predictImage(part)
+    fun analyzeImage(part: MultipartBody.Part, isGuest: Boolean) =
+        predictRepository.predictImage(part, isGuest)
 }

@@ -18,7 +18,7 @@ import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginViewModel
 import com.capstone.herbaguideapps.ui.welcome.register.RegisterActivity
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
 
 class WelcomeLoginActivity : AppCompatActivity() {
 

@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.herbaguideapps.R
-import com.capstone.herbaguideapps.data.local.HistoryEntity
+import com.bumptech.glide.Glide
+import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.ItemListHistoryBinding
 
 class ListHistoryAdapter :
-    ListAdapter<HistoryEntity, ListHistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<HistoryItem, ListHistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -20,10 +20,12 @@ class ListHistoryAdapter :
 
     class ViewHolder(private val binding: ItemListHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(history: HistoryEntity) {
-            binding.txtTitle.text = history.name
-            binding.txtDate.text = history.createAt
-            binding.ivExplore.setImageResource(R.drawable.welcome1)
+        fun bind(history: HistoryItem) {
+            binding.txtTitle.text = history.tanamanHerbal.nama
+            binding.txtDate.text = history.createdAt
+            Glide.with(itemView)
+                .load(history.tanamanHerbal.photoUrl)
+                .into(binding.ivExplore)
         }
     }
 
@@ -43,18 +45,18 @@ class ListHistoryAdapter :
     }
 
     interface OnItemClickCallback {
-        fun onItemClickCallBack(data: HistoryEntity)
+        fun onItemClickCallBack(data: HistoryItem)
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryEntity>() {
-            override fun areItemsTheSame(oldItem: HistoryEntity, newItem: HistoryEntity): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryItem>() {
+            override fun areItemsTheSame(oldItem: HistoryItem, newItem: HistoryItem): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: HistoryEntity,
-                newItem: HistoryEntity
+                oldItem: HistoryItem,
+                newItem: HistoryItem
             ): Boolean {
                 return oldItem == newItem
             }

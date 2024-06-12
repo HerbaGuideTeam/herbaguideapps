@@ -26,7 +26,7 @@ import com.capstone.herbaguideapps.databinding.ActivityLoginBinding
 import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.register.RegisterActivity
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException

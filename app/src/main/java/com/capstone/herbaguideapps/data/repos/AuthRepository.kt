@@ -25,12 +25,11 @@ class AuthRepository(
     private val sessionPreferences: SessionPreferences,
     private val apiService: ApiService
 ) {
+    private val _authResult = MutableLiveData<Result<AuthResponse>>()
+    val authResult: LiveData<Result<AuthResponse>> = _authResult
 
-    private val _authResult = MutableLiveData<Result<AuthResponse?>>()
-    val authResult: LiveData<Result<AuthResponse?>> = _authResult
-
-    private val _loginResult = MutableLiveData<Result<LoginResponse?>>()
-    val loginResult: LiveData<Result<LoginResponse?>> = _loginResult
+    private val _loginResult = MutableLiveData<Result<LoginResponse>>()
+    val loginResult: LiveData<Result<LoginResponse>> = _loginResult
 
     fun getSession(): Flow<SessionModel> {
         return sessionPreferences.getSession()
@@ -93,28 +92,53 @@ class AuthRepository(
         }
     }
 
-    fun register(registerBody: RegisterBody) {
-        _authResult.value = Result.Loading
-        val client = apiService.register(registerBody)
-        client.enqueue(object : Callback<AuthResponse> {
-            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                if (response.isSuccessful) {
-                    _authResult.value = Result.Success(response.body()!!)
-                } else {
-                    _authResult.value = Result.Error(response.errorBody()!!.string())
+    suspend fun logout(logoutBody: LogoutBody) {
+        _authResult.postValue(Result.Loading)
+        try {
+            val loginResponse = withContext(Dispatchers.IO) {
+                suspendCancellableCoroutine<AuthResponse> { continuation ->
+                    val client = apiService.logout(logoutBody)
+                    client.enqueue(object : Callback<AuthResponse> {
+                        override fun onResponse(
+                            call: Call<AuthResponse>,
+                            response: Response<AuthResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                response.body()?.let {
+                                    continuation.resume(it)
+                                }
+                                    ?: continuation.resumeWithException(Exception("Response body is null"))
+                            } else {
+                                continuation.resumeWithException(
+                                    Exception(response.errorBody()?.string() ?: "Unknown error")
+                                )
+                            }
+                        }
+
+                        override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                            continuation.resumeWithException(t)
+                        }
+                    })
+
+                    continuation.invokeOnCancellation {
+                        client.cancel()
+                    }
                 }
             }
 
-            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                _authResult.value = Result.Error(t.message.toString())
+            withContext(Dispatchers.IO) {
+                sessionPreferences.logout()
             }
 
-        })
+            _authResult.postValue(Result.Success(loginResponse))
+        } catch (e: Exception) {
+            _authResult.postValue(Result.Error(e.message ?: "Unknown error"))
+        }
     }
 
-    fun logout(logoutBody: LogoutBody) {
+    fun register(registerBody: RegisterBody) {
         _authResult.value = Result.Loading
-        val client = apiService.logout(logoutBody)
+        val client = apiService.register(registerBody)
         client.enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {

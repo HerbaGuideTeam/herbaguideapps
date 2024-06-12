@@ -16,15 +16,14 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    val authResult: LiveData<Result<AuthResponse?>> = authRepository.authResult
-    val loginResult: LiveData<Result<LoginResponse?>> = authRepository.loginResult
+    val loginResult: LiveData<Result<LoginResponse>> = authRepository.loginResult
+    val logoutResult: LiveData<Result<AuthResponse>> = authRepository.authResult
 
     fun login(loginBody: LoginBody) {
         viewModelScope.launch {
             authRepository.login(loginBody)
         }
     }
-
     fun logout(logoutBody: LogoutBody) {
         viewModelScope.launch {
             authRepository.logout(logoutBody)

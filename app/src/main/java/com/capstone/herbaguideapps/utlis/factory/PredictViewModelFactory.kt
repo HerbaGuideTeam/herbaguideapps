@@ -1,10 +1,11 @@
-package com.capstone.herbaguideapps.utlis.viewmodelfactory
+package com.capstone.herbaguideapps.utlis.factory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.herbaguideapps.data.repos.PredictRepository
 import com.capstone.herbaguideapps.di.Injection
+import com.capstone.herbaguideapps.ui.history.HistoryViewModel
 import com.capstone.herbaguideapps.ui.identify.PredictViewModel
 
 class PredictViewModelFactory private constructor(
@@ -15,6 +16,10 @@ class PredictViewModelFactory private constructor(
         return when {
             modelClass.isAssignableFrom(PredictViewModel::class.java) -> {
                 PredictViewModel(predictRepository) as T
+            }
+
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                HistoryViewModel(predictRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

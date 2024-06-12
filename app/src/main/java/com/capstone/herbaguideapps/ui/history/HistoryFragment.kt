@@ -6,15 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.herbaguideapps.adapter.ListHistoryAdapter
-import com.capstone.herbaguideapps.data.local.HistoryEntity
-import com.capstone.herbaguideapps.data.local.dummyHistory
+import com.capstone.herbaguideapps.data.Result
+import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.FragmentHistoryBinding
+import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
 
 class HistoryFragment : Fragment() {
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
+
+    private val historyViewModel by viewModels<HistoryViewModel> {
+        PredictViewModelFactory.getInstance(requireActivity())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,20 +29,45 @@ class HistoryFragment : Fragment() {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        historyViewModel.getHistory()
+        historyViewModel.history.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+
+                    }
+
+                    is Result.Success -> {
+                        setHistoryData(result.data.history)
+                    }
+
+                    is Result.Error -> {
+
+                    }
+                }
+            }
+        }
+
+        return root
+    }
+
+    private fun setHistoryData(list: List<HistoryItem>) {
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvHistory.layoutManager = layoutManager
 
         val adapter = ListHistoryAdapter()
-        binding.rvHistory.adapter = adapter
 
-        adapter.submitList(dummyHistory)
+        adapter.submitList(list)
         adapter.setOnItemClickCallback(object : ListHistoryAdapter.OnItemClickCallback {
-            override fun onItemClickCallBack(data: HistoryEntity) {
-                Toast.makeText(requireActivity(), "Nama: ${data.name}", Toast.LENGTH_SHORT).show()
+            override fun onItemClickCallBack(data: HistoryItem) {
+                Toast.makeText(
+                    requireActivity(),
+                    "Nama: ${data.tanamanHerbal.nama}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
-
-        return root
+        binding.rvHistory.adapter = adapter
     }
 
     override fun onDestroy() {

@@ -16,7 +16,7 @@ import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.databinding.ActivityRegisterBinding
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.AuthViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -104,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     is Result.Success -> {
                         binding.linearProgress.visibility = View.GONE
-                        showToast(result.data?.message ?: "Success")
+                        showToast(result.data.message)
 
                         LoginActivity.start(this)
                         finish()

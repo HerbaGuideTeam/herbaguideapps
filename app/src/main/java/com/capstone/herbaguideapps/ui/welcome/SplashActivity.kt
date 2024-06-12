@@ -1,6 +1,7 @@
 package com.capstone.herbaguideapps.ui.welcome
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -17,8 +18,9 @@ import com.capstone.herbaguideapps.MainActivity
 import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.databinding.ActivitySplashBinding
 import com.capstone.herbaguideapps.session.SessionViewModel
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.SessionViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.SessionViewModelFactory
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding

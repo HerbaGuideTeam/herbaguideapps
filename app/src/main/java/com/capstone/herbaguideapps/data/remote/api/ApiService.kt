@@ -4,9 +4,10 @@ import com.capstone.herbaguideapps.data.remote.body.LoginBody
 import com.capstone.herbaguideapps.data.remote.body.LogoutBody
 import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
-import com.capstone.herbaguideapps.data.remote.response.FileUploadResponse
+import com.capstone.herbaguideapps.data.remote.response.HistoryResponse
 import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.data.remote.response.NewsResponse
+import com.capstone.herbaguideapps.data.remote.response.PredictResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -36,6 +37,8 @@ interface ApiService {
         @Body loginBody: LoginBody
     ): Call<LoginResponse>
 
+    @POST("ping")
+    fun validateToken(): Call<String>
 
     @POST("logout")
     fun logout(
@@ -48,8 +51,18 @@ interface ApiService {
     ): Call<AuthResponse>
 
     @Multipart
-    @POST("predict_image\n")
+    @POST("predict_image")
     fun uploadImage(
         @Part file: MultipartBody.Part
-    ): Call<FileUploadResponse>
+    ): Call<PredictResponse>
+
+    @Multipart
+    @POST("predict_image_anon")
+    fun uploadImageAnon(
+        @Part file: MultipartBody.Part
+    ): Call<PredictResponse>
+
+    @GET("gethistory")
+    fun history(): Call<HistoryResponse>
+
 }

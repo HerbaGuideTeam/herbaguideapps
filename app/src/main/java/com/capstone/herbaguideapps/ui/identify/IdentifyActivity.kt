@@ -17,9 +17,11 @@ import com.bumptech.glide.Glide
 import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.data.Result
 import com.capstone.herbaguideapps.databinding.ActivityIdentifyBinding
+import com.capstone.herbaguideapps.session.SessionViewModel
+import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
+import com.capstone.herbaguideapps.utlis.factory.SessionViewModelFactory
 import com.capstone.herbaguideapps.utlis.reduceFileImage
 import com.capstone.herbaguideapps.utlis.uriToFile
-import com.capstone.herbaguideapps.utlis.viewmodelfactory.PredictViewModelFactory
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -29,6 +31,11 @@ class IdentifyActivity : AppCompatActivity() {
 
     private val predictViewModel by viewModels<PredictViewModel> {
         PredictViewModelFactory.getInstance(this)
+    }
+
+
+    private val sessionViewModel by viewModels<SessionViewModel> {
+        SessionViewModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +51,9 @@ class IdentifyActivity : AppCompatActivity() {
 
         val imageUri: Uri? = intent.getStringExtra(EXTRA_URI)?.toUri()
 
-        analyzeImage(imageUri)
+        sessionViewModel.getSession().observe(this) { session ->
+            analyzeImage(imageUri, session.isGuest)
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -54,7 +63,7 @@ class IdentifyActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun analyzeImage(currentImageUri: Uri?) {
+    private fun analyzeImage(currentImageUri: Uri?, isGuest: Boolean) {
         currentImageUri?.let { uri ->
             val file = uriToFile(uri, this)
             val compressFile = reduceFileImage(file)
@@ -66,7 +75,7 @@ class IdentifyActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            predictViewModel.analyzeImage(multipartBody).observe(this) { result ->
+            predictViewModel.analyzeImage(multipartBody, isGuest).observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
@@ -75,11 +84,11 @@ class IdentifyActivity : AppCompatActivity() {
 
                         is Result.Success -> {
                             binding.linearProgress.visibility = View.GONE
-                            binding.txtName.text = result.data.data.result
-                            binding.txtDescription.text =
-                                "Score: " + result.data.data.confidenceScore.toString()
+                            val tanamanHerbal = result.data.prediction.tanamanHerbal
+                            binding.txtName.text = tanamanHerbal.nama
+                            binding.txtDescription.text = tanamanHerbal.deskripsi
                             Glide.with(this)
-                                .load(uri)
+                                .load(tanamanHerbal.photoUrl)
                                 .into(binding.ivPlant)
                         }
 
