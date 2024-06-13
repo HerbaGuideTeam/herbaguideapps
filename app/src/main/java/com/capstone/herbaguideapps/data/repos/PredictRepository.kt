@@ -22,7 +22,10 @@ class PredictRepository private constructor(
 
     private val result = MediatorLiveData<Result<PredictResponse>>()
 
-    fun predictImage(part: MultipartBody.Part, isGuest: Boolean): LiveData<Result<PredictResponse>> {
+    fun predictImage(
+        part: MultipartBody.Part,
+        isGuest: Boolean
+    ): LiveData<Result<PredictResponse>> {
         result.value = Result.Loading
         val client: Call<PredictResponse> = if (isGuest) {
             apiService.uploadImageAnon(part)

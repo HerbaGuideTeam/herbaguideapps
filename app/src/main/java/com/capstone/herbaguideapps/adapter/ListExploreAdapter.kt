@@ -24,7 +24,6 @@ class ListExploreAdapter :
             binding.txtTitle.text = article.title
             Glide.with(itemView)
                 .load(article.urlToImage)
-                .circleCrop()
                 .into(binding.ivExplore)
         }
     }

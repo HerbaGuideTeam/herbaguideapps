@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:lineHeight="36dp"
                     android:text="@string/title_home_name"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btn_profile"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:lineHeight="36dp"
-                android:text="@string/title_history"
+                android:text="@string/recent_history"
                 android:textSize="28sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:lineHeight="36dp"
-                android:text="Hottest Articles"
+                android:text="@string/trending_news"
                 android:textSize="28sp" />
 
             <androidx.recyclerview.widget.RecyclerView

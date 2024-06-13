@@ -21,7 +21,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.capstone.herbaguideapps.MainActivity
 import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.LoginBody
+import com.capstone.herbaguideapps.data.model.LoginBody
 import com.capstone.herbaguideapps.databinding.ActivityLoginBinding
 import com.capstone.herbaguideapps.session.SessionModel
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity

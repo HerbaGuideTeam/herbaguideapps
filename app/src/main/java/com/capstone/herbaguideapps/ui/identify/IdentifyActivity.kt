@@ -13,9 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.capstone.herbaguideapps.R
+import com.capstone.herbaguideapps.adapter.ExpandUsabilityAdapter
 import com.capstone.herbaguideapps.data.Result
+import com.capstone.herbaguideapps.data.model.Usability
 import com.capstone.herbaguideapps.databinding.ActivityIdentifyBinding
 import com.capstone.herbaguideapps.session.SessionViewModel
 import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
@@ -86,10 +89,21 @@ class IdentifyActivity : AppCompatActivity() {
                             binding.linearProgress.visibility = View.GONE
                             val tanamanHerbal = result.data.prediction.tanamanHerbal
                             binding.txtName.text = tanamanHerbal.nama
+                            val percent = (result.data.confidence * 100).toInt()
+                            binding.txtScore.text = "Score: $percent %"
                             binding.txtDescription.text = tanamanHerbal.deskripsi
                             Glide.with(this)
                                 .load(tanamanHerbal.photoUrl)
                                 .into(binding.ivPlant)
+
+                            val usabilityList: List<Usability> =
+                                tanamanHerbal.mengobatiApa.map { mengobatiApaItem ->
+                                    Usability(
+                                        penyakit = mengobatiApaItem.penyakit,
+                                        resep = mengobatiApaItem.resep
+                                    )
+                                }
+                            setUsabilityData(usabilityList)
                         }
 
                         is Result.Error -> {
@@ -105,6 +119,15 @@ class IdentifyActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUsabilityData(usability: List<Usability>) {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvUsability.layoutManager = layoutManager
+
+        val adapter = ExpandUsabilityAdapter()
+
+        adapter.submitList(usability)
+        binding.rvUsability.adapter = adapter
+    }
 
     companion object {
         const val EXTRA_URI = "extra_uri"

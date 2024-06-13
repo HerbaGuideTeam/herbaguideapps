@@ -3,10 +3,10 @@ package com.capstone.herbaguideapps.data.repos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.capstone.herbaguideapps.data.Result
+import com.capstone.herbaguideapps.data.model.LoginBody
+import com.capstone.herbaguideapps.data.model.LogoutBody
+import com.capstone.herbaguideapps.data.model.RegisterBody
 import com.capstone.herbaguideapps.data.remote.api.ApiService
-import com.capstone.herbaguideapps.data.remote.body.LoginBody
-import com.capstone.herbaguideapps.data.remote.body.LogoutBody
-import com.capstone.herbaguideapps.data.remote.body.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.session.SessionModel

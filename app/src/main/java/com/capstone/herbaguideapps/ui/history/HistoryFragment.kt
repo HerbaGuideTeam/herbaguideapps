@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +28,12 @@ class HistoryFragment : Fragment() {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        getHistoryData()
+
+        return root
+    }
+
+    private fun getHistoryData() {
         historyViewModel.getHistory()
         historyViewModel.history.observe(viewLifecycleOwner) { result ->
             if (result != null) {
@@ -47,8 +52,6 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
-
-        return root
     }
 
     private fun setHistoryData(list: List<HistoryItem>) {
@@ -60,14 +63,21 @@ class HistoryFragment : Fragment() {
         adapter.submitList(list)
         adapter.setOnItemClickCallback(object : ListHistoryAdapter.OnItemClickCallback {
             override fun onItemClickCallBack(data: HistoryItem) {
-                Toast.makeText(
-                    requireActivity(),
-                    "Nama: ${data.tanamanHerbal.nama}",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+                val bundle = Bundle()
+                bundle.putParcelable(ModalBottomDetailFragment.EXTRA_DATA, data)
+
+                val modalBottomSheet = ModalBottomDetailFragment()
+                modalBottomSheet.arguments = bundle
+                modalBottomSheet.show(parentFragmentManager, ModalBottomDetailFragment.TAG)
             }
         })
         binding.rvHistory.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getHistoryData()
     }
 
     override fun onDestroy() {

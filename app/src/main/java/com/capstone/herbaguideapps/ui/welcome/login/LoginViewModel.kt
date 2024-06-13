@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.LoginBody
-import com.capstone.herbaguideapps.data.remote.body.LogoutBody
+import com.capstone.herbaguideapps.data.model.LoginBody
+import com.capstone.herbaguideapps.data.model.LogoutBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.data.repos.AuthRepository
@@ -24,6 +24,7 @@ class LoginViewModel(
             authRepository.login(loginBody)
         }
     }
+
     fun logout(logoutBody: LogoutBody) {
         viewModelScope.launch {
             authRepository.logout(logoutBody)

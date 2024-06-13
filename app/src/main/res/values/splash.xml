@@ -4,7 +4,7 @@
     <style name="Base.AppTheme.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">?android:attr/windowBackground</item>
         <item name="postSplashScreenTheme">@style/Base.AppTheme</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_hg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
     </style>
 

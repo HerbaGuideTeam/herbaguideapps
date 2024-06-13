@@ -1,4 +1,4 @@
-package com.capstone.herbaguideapps.data.remote.body
+package com.capstone.herbaguideapps.data.model
 
 data class RegisterBody(
     val email: String,

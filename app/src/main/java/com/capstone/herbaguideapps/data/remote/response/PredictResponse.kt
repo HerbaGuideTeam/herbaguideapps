@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class PredictResponse(
 
     @field:SerializedName("confidence")
-    val confidence: Any,
+    val confidence: Float,
 
     @field:SerializedName("prediction")
     val prediction: Prediction,

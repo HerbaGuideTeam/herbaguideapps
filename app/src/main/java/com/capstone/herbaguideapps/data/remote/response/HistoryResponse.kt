@@ -1,6 +1,8 @@
 package com.capstone.herbaguideapps.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class HistoryResponse(
 
@@ -11,18 +13,20 @@ data class HistoryResponse(
     val message: String
 )
 
+@Parcelize
 data class HistoryItem(
 
     @field:SerializedName("confidence")
-    val confidence: Any,
+    val confidence: Float,
 
     @field:SerializedName("created_at")
     val createdAt: String,
 
     @field:SerializedName("tanaman_herbal")
     val tanamanHerbal: TanamanHerbal
-)
+) : Parcelable
 
+@Parcelize
 data class TanamanHerbal(
 
     @field:SerializedName("nama")
@@ -36,13 +40,17 @@ data class TanamanHerbal(
 
     @field:SerializedName("deskripsi")
     val deskripsi: String
-)
+) : Parcelable
 
+@Parcelize
 data class MengobatiApaItem(
 
     @field:SerializedName("penyakit")
     val penyakit: String,
 
     @field:SerializedName("resep")
-    val resep: List<String>
-)
+    val resep: List<String>,
+
+    @field:SerializedName("is_expandable")
+    val isExpandable: Boolean = false
+) : Parcelable

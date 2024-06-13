@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.RegisterBody
+import com.capstone.herbaguideapps.data.model.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.repos.AuthRepository
 import kotlinx.coroutines.launch

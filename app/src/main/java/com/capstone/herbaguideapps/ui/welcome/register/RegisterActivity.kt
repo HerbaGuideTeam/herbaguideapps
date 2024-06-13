@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.RegisterBody
+import com.capstone.herbaguideapps.data.model.RegisterBody
 import com.capstone.herbaguideapps.databinding.ActivityRegisterBinding
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity

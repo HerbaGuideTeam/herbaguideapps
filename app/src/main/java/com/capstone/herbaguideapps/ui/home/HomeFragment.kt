@@ -17,13 +17,14 @@ import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.adapter.GridExploreAdapter
 import com.capstone.herbaguideapps.adapter.GridHistoryAdapter
 import com.capstone.herbaguideapps.data.Result
-import com.capstone.herbaguideapps.data.remote.body.LogoutBody
+import com.capstone.herbaguideapps.data.model.LogoutBody
 import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
 import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.FragmentHomeBinding
 import com.capstone.herbaguideapps.session.SessionViewModel
 import com.capstone.herbaguideapps.ui.explore.ExploreViewModel
 import com.capstone.herbaguideapps.ui.history.HistoryViewModel
+import com.capstone.herbaguideapps.ui.history.ModalBottomDetailFragment
 import com.capstone.herbaguideapps.ui.identify.ModalBottomScanFragment
 import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.login.LoginViewModel
@@ -175,6 +176,12 @@ class HomeFragment : Fragment() {
         adapter.setOnItemClickCallback(object : GridHistoryAdapter.OnItemClickCallback {
             override fun onItemClickCallBack(data: HistoryItem) {
 
+                val bundle = Bundle()
+                bundle.putParcelable(ModalBottomDetailFragment.EXTRA_DATA, data)
+
+                val modalBottomSheet = ModalBottomDetailFragment()
+                modalBottomSheet.arguments = bundle
+                modalBottomSheet.show(parentFragmentManager, ModalBottomDetailFragment.TAG)
             }
         })
         binding.rvHistory.adapter = adapter

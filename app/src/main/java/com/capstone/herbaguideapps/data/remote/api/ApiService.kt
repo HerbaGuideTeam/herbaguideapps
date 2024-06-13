@@ -1,8 +1,8 @@
 package com.capstone.herbaguideapps.data.remote.api
 
-import com.capstone.herbaguideapps.data.remote.body.LoginBody
-import com.capstone.herbaguideapps.data.remote.body.LogoutBody
-import com.capstone.herbaguideapps.data.remote.body.RegisterBody
+import com.capstone.herbaguideapps.data.model.LoginBody
+import com.capstone.herbaguideapps.data.model.LogoutBody
+import com.capstone.herbaguideapps.data.model.RegisterBody
 import com.capstone.herbaguideapps.data.remote.response.AuthResponse
 import com.capstone.herbaguideapps.data.remote.response.HistoryResponse
 import com.capstone.herbaguideapps.data.remote.response.LoginResponse
