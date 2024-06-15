@@ -8,10 +8,12 @@ import com.capstone.herbaguideapps.data.remote.response.HistoryResponse
 import com.capstone.herbaguideapps.data.remote.response.LoginResponse
 import com.capstone.herbaguideapps.data.remote.response.NewsResponse
 import com.capstone.herbaguideapps.data.remote.response.PredictResponse
+import com.capstone.herbaguideapps.data.remote.response.ValidateResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -29,7 +31,9 @@ interface ApiService {
     @GET("everything")
     fun topHeadline(
         @Query("apiKey") apikey: String,
-        @Query("q") q: String = "herbal+medicine"
+        @Query("q") q: String = "herbal+medicine",
+        @Query("pageSize") pageSize: Int = 5,
+        @Query("page") page: Int = 1
     ): Call<NewsResponse>
 
     @POST("login")
@@ -38,7 +42,9 @@ interface ApiService {
     ): Call<LoginResponse>
 
     @POST("ping")
-    fun validateToken(): Call<String>
+    fun validateToken(
+        @Header("Authorization") token: String
+    ): Call<ValidateResponse>
 
     @POST("logout")
     fun logout(

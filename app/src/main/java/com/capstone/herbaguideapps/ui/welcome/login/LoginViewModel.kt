@@ -1,6 +1,7 @@
 package com.capstone.herbaguideapps.ui.welcome.login
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,20 +17,14 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    val loginResult: LiveData<Result<LoginResponse>> = authRepository.loginResult
-    val logoutResult: LiveData<Result<AuthResponse>> = authRepository.authResult
 
-    fun login(loginBody: LoginBody) {
-        viewModelScope.launch {
-            authRepository.login(loginBody)
-        }
-    }
+    private val _authResult = MutableLiveData<Result<AuthResponse>>()
+    val authResult: LiveData<Result<AuthResponse>> = _authResult
 
-    fun logout(logoutBody: LogoutBody) {
-        viewModelScope.launch {
-            authRepository.logout(logoutBody)
-        }
-    }
+    private val _loginResult = MutableLiveData<Result<LoginResponse>>()
+    val loginResult: LiveData<Result<LoginResponse>> = _loginResult
+
+    fun getSession(): LiveData<SessionModel> = authRepository.getSession().asLiveData()
 
     fun saveSession(sessionModel: SessionModel) {
         viewModelScope.launch {
@@ -37,7 +32,20 @@ class LoginViewModel(
         }
     }
 
-    fun getSession(): LiveData<SessionModel> {
-        return authRepository.getSession().asLiveData()
+    fun login(loginBody: LoginBody) {
+        viewModelScope.launch {
+            _loginResult.value = Result.Loading
+            val result = authRepository.login(loginBody)
+            _loginResult.postValue(result)
+        }
+    }
+
+    fun logout(logoutBody: LogoutBody) {
+        viewModelScope.launch {
+            _authResult.value = Result.Loading
+            authRepository.logout(logoutBody) { result ->
+                _authResult.postValue(result)
+            }
+        }
     }
 }

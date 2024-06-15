@@ -270,7 +270,7 @@
             motion:layout_constraintTop_toBottomOf="@id/menu2">
             <CustomAttribute
                 motion:attributeName="text"
-                motion:customStringValue="Skip" />
+                motion:customStringValue="@string/title_skip" />
         </Constraint>
     </ConstraintSet>
 

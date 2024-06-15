@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:maxLines="2"
-            android:text="@string/lorem_ipsum" />
+            tools:text="@tools:sample/lorem/random" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

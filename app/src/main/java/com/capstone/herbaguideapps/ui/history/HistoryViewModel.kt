@@ -1,6 +1,7 @@
 package com.capstone.herbaguideapps.ui.history
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.herbaguideapps.data.Result
@@ -12,11 +13,15 @@ class HistoryViewModel(
     private val predictRepository: PredictRepository
 ) : ViewModel() {
 
-    val history: LiveData<Result<HistoryResponse>> = predictRepository.historyResult
+    private val _historyResult = MutableLiveData<Result<HistoryResponse>>()
+    val historyResult: LiveData<Result<HistoryResponse>> = _historyResult
 
     fun getHistory() {
+        _historyResult.value = Result.Loading
         viewModelScope.launch {
-            predictRepository.getHistory()
+            predictRepository.getHistory { result ->
+                _historyResult.postValue(result)
+            }
         }
     }
 }

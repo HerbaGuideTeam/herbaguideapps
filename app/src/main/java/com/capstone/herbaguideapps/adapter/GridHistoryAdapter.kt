@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.ItemHistoryGridBinding
 
@@ -32,6 +33,7 @@ class GridHistoryAdapter :
             binding.txtName.text = tanamanHerbal.nama
             Glide.with(itemView)
                 .load(tanamanHerbal.photoUrl)
+                .placeholder(R.drawable.ic_image_48dp)
                 .into(binding.ivHistory)
         }
     }

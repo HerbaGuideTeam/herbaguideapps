@@ -78,7 +78,8 @@ class IdentifyActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            predictViewModel.analyzeImage(multipartBody, isGuest).observe(this) { result ->
+            predictViewModel.predictImage(multipartBody, isGuest)
+            predictViewModel.predictResult.observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
@@ -87,8 +88,10 @@ class IdentifyActivity : AppCompatActivity() {
 
                         is Result.Success -> {
                             binding.linearProgress.visibility = View.GONE
+
                             val tanamanHerbal = result.data.prediction.tanamanHerbal
                             binding.txtName.text = tanamanHerbal.nama
+
                             val percent = (result.data.confidence * 100).toInt()
                             binding.txtScore.text = "Score: $percent %"
                             binding.txtDescription.text = tanamanHerbal.deskripsi

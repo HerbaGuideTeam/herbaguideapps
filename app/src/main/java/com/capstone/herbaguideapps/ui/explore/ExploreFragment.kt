@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.herbaguideapps.adapter.ListExploreAdapter
 import com.capstone.herbaguideapps.data.remote.response.ArticlesItem
 import com.capstone.herbaguideapps.databinding.FragmentExploreBinding
 import com.capstone.herbaguideapps.utlis.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class ExploreFragment : Fragment() {
 
@@ -29,14 +31,18 @@ class ExploreFragment : Fragment() {
         _binding = FragmentExploreBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvExplore.layoutManager = layoutManager
 
-        exploreViewModel.listExplore.observe(viewLifecycleOwner) {
-            setExploreData(it)
+        lifecycleScope.launch {
+            exploreViewModel.listExplore.observe(viewLifecycleOwner) {
+                setExploreData(it)
+            }
         }
-
-        return root
     }
 
     override fun onDestroy() {

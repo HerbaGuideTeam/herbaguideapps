@@ -32,7 +32,8 @@ object Injection {
 
     fun provideSessionRepository(context: Context): SessionRepository {
         val sessionPreferences = SessionPreferences.getInstance(context.dataStore)
-        return SessionRepository.getInstance(sessionPreferences)
+        val apiService = ApiConfig.getAuthServices()
+        return SessionRepository.getInstance(sessionPreferences, apiService)
     }
 
 }

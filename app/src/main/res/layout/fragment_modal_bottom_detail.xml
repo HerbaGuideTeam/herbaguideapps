@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
@@ -51,17 +51,20 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="Score: 60 %" />
 
             <TextView
+                android:id="@+id/title_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_description"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/txt_description"
@@ -70,17 +73,20 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="@tools:sample/lorem" />
 
             <TextView
+                android:id="@+id/title_usability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_usability"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_usability"

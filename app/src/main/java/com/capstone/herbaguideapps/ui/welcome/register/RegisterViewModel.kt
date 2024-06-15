@@ -1,6 +1,7 @@
 package com.capstone.herbaguideapps.ui.welcome.register
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.herbaguideapps.data.Result
@@ -12,11 +13,15 @@ import kotlinx.coroutines.launch
 class RegisterViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    val authResult: LiveData<Result<AuthResponse>> = authRepository.authResult
+    private val _authResult = MutableLiveData<Result<AuthResponse>>()
+    val authResult: LiveData<Result<AuthResponse>> = _authResult
 
     fun register(registerBody: RegisterBody) {
         viewModelScope.launch {
-            authRepository.register(registerBody)
+            _authResult.value = Result.Loading
+            authRepository.register(registerBody) { result ->
+                _authResult.postValue(result)
+            }
         }
     }
 }

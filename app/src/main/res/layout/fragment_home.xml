@@ -70,41 +70,58 @@
                 app:iconGravity="textStart"
                 app:iconSize="100dp" />
 
-            <TextView
-                android:id="@+id/txt_history"
+            <LinearLayout
+                android:id="@+id/layout_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:lineHeight="36dp"
-                android:text="@string/recent_history"
-                android:textSize="28sp" />
+                android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_history_grid" />
+                <TextView
+                    android:id="@+id/txt_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="36dp"
+                    android:text="@string/recent_history"
+                    android:textSize="28sp" />
 
-            <TextView
-                android:id="@+id/txt_explore"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_history_grid" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:lineHeight="36dp"
-                android:text="@string/trending_news"
-                android:textSize="28sp" />
+                android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_explore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="?attr/actionBarSize"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_grid_explore" />
+                <TextView
+                    android:id="@+id/txt_explore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="36dp"
+                    android:text="@string/trending_news"
+                    android:textSize="28sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_explore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_grid_explore" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

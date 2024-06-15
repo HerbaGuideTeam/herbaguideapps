@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,17 +30,12 @@ import com.capstone.herbaguideapps.utlis.ViewModelFactory
 import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
 import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
 import com.capstone.herbaguideapps.utlis.factory.SessionViewModelFactory
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var auth: FirebaseAuth
 
     private val sessionViewModel by viewModels<SessionViewModel> {
         SessionViewModelFactory.getInstance(requireActivity())
@@ -51,7 +44,6 @@ class HomeFragment : Fragment() {
     private val loginViewModel by viewModels<LoginViewModel> {
         AuthViewModelFactory.getInstance(requireActivity())
     }
-
 
     private val exploreViewModel by viewModels<ExploreViewModel> {
         ViewModelFactory.getInstance(requireActivity())
@@ -70,32 +62,69 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        auth = Firebase.auth
-
         binding.btnScan.setOnClickListener {
             val modalSheetFragment = ModalBottomScanFragment()
             modalSheetFragment.show(childFragmentManager, modalSheetFragment.tag)
         }
 
-        sessionViewModel.getSession().observe(viewLifecycleOwner) { session ->
-            binding.txtWelcome.text = getString(R.string.title_home_name, session.name)
-        }
+        lifecycleScope.launch {
+            historyViewModel.getHistory()
+            historyViewModel.historyResult.observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
 
-        historyViewModel.getHistory()
-        historyViewModel.history.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
+                        }
+
+                        is Result.Success -> {
+                            showDataHistory(result.data.history)
+                        }
+
+                        is Result.Error -> {
+
+                        }
+                    }
+                }
+            }
+
+
+            sessionViewModel.getSession().observe(viewLifecycleOwner) { session ->
+                binding.txtWelcome.text = getString(R.string.title_home_name, session.name)
+
+                if (session.isLogin && !session.isGuest) {
+                    binding.layoutHistory.visibility = View.VISIBLE
+
+                    sessionViewModel.validateToken()
+                    sessionViewModel.authResult.observe(viewLifecycleOwner) { result ->
+                        if (result != null) {
+                            when (result) {
+                                is Result.Loading -> {
+                                    binding.linearProgress.visibility = View.VISIBLE
+                                }
+
+                                is Result.Success -> {
+                                    binding.linearProgress.visibility = View.GONE
+                                }
+
+                                is Result.Error -> {
+                                    binding.linearProgress.visibility = View.GONE
+
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Sesi sudah berakhir",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    sessionViewModel.logout()
+                                    WelcomeLoginActivity.start(requireActivity())
+                                    finishMainActivity()
+                                }
+                            }
+                        }
 
                     }
-
-                    is Result.Success -> {
-                        showDataHistory(result.data.history)
-                    }
-
-                    is Result.Error -> {
-
-                    }
+                } else {
+                    binding.layoutHistory.visibility = View.GONE
                 }
             }
         }
@@ -110,55 +139,47 @@ class HomeFragment : Fragment() {
     }
 
     private fun clearSession() {
-        sessionViewModel.getSession().observe(viewLifecycleOwner) { session ->
-            if (session.isLogin && (!session.isGuest && !session.isGoogle)) {
-                val logoutBody = LogoutBody(session.token)
-
-                loginViewModel.logout(logoutBody)
-                loginViewModel.logoutResult.observe(viewLifecycleOwner) { result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.linearProgress.visibility = View.VISIBLE
-                        }
-
-                        is Result.Success -> {
-                            binding.linearProgress.visibility = View.GONE
-                            Toast.makeText(
-                                requireActivity(),
-                                result.data.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            WelcomeLoginActivity.start(requireActivity())
-                            finishMainActivity()
-                        }
-
-                        is Result.Error -> {
-                            binding.linearProgress.visibility = View.GONE
-                            Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-
-            } else if (session.isGuest) {
-                sessionViewModel.logout()
-                WelcomeLoginActivity.start(requireActivity())
-                finishMainActivity()
-            } else if (session.isGoogle) {
-                signOut()
-            }
-        }
-    }
-
-    private fun signOut() {
 
         lifecycleScope.launch {
-            val credentialManager = CredentialManager.create(requireActivity())
-            auth.signOut()
-            credentialManager.clearCredentialState(ClearCredentialStateRequest())
-            WelcomeLoginActivity.start(requireActivity())
-            finishMainActivity()
+            sessionViewModel.getSession().observe(viewLifecycleOwner) { session ->
+                if (session.isLogin && !session.isGuest) {
+                    val logoutBody = LogoutBody(session.token)
+
+                    loginViewModel.logout(logoutBody)
+                    loginViewModel.authResult.observe(viewLifecycleOwner) { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                binding.linearProgress.visibility = View.VISIBLE
+                            }
+
+                            is Result.Success -> {
+                                binding.linearProgress.visibility = View.GONE
+                                sessionViewModel.logout()
+                                Toast.makeText(
+                                    requireActivity(),
+                                    result.data.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                WelcomeLoginActivity.start(requireActivity())
+                                finishMainActivity()
+                            }
+
+                            is Result.Error -> {
+                                binding.linearProgress.visibility = View.GONE
+                                Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    }
+
+                } else if (session.isGuest) {
+                    sessionViewModel.logout()
+                    WelcomeLoginActivity.start(requireActivity())
+                    finishMainActivity()
+                }
+            }
         }
+
     }
 
     override fun onDestroyView() {
@@ -192,41 +213,44 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvExplore.layoutManager = layoutManager
 
-        exploreViewModel.getTopHeadline().observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
+        lifecycleScope.launch {
+            exploreViewModel.getTopHeadline().observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
 
-                    }
+                        }
 
-                    is Result.Success -> {
-                        val adapter = GridExploreAdapter()
-                        binding.rvExplore.adapter = adapter
+                        is Result.Success -> {
+                            val adapter = GridExploreAdapter()
+                            binding.rvExplore.adapter = adapter
 
-                        adapter.submitTrimmedList(result.data.articles)
-                        adapter.setOnItemClickCallback(object :
-                            GridExploreAdapter.OnItemClickCallback {
-                            override fun onItemClickCallBack(data: ArticlesItem) {
-                                Toast.makeText(
-                                    requireActivity(),
-                                    "Article: ${data.title}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
-                    }
+                            adapter.submitTrimmedList(result.data.articles)
+                            adapter.setOnItemClickCallback(object :
+                                GridExploreAdapter.OnItemClickCallback {
+                                override fun onItemClickCallBack(data: ArticlesItem) {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Article: ${data.title}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                        }
 
-                    is Result.Error -> {
-                        Toast.makeText(
-                            requireActivity(),
-                            "Hottest News Error: ${result.error}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        is Result.Error -> {
+                            Toast.makeText(
+                                requireActivity(),
+                                "Hottest News Error: ${result.error}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
-            }
 
+            }
         }
+
     }
 
     private fun finishMainActivity() {
