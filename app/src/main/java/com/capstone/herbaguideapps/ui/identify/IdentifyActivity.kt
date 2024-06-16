@@ -99,6 +99,9 @@ class IdentifyActivity : AppCompatActivity() {
                                 .load(tanamanHerbal.photoUrl)
                                 .into(binding.ivPlant)
 
+                            binding.txtTitleDesc.visibility = View.VISIBLE
+                            binding.txtTitleUsability.visibility = View.VISIBLE
+
                             val usabilityList: List<Usability> =
                                 tanamanHerbal.mengobatiApa.map { mengobatiApaItem ->
                                     Usability(

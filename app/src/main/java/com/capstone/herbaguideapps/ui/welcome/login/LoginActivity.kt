@@ -21,7 +21,6 @@ import com.capstone.herbaguideapps.ui.welcome.WelcomeLoginActivity
 import com.capstone.herbaguideapps.ui.welcome.register.RegisterActivity
 import com.capstone.herbaguideapps.utlis.factory.AuthViewModelFactory
 import kotlinx.coroutines.launch
-
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -126,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val TAG = "LoginActivity"
+        const val TAG = "AXLoginActivity"
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)

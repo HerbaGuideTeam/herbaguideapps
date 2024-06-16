@@ -68,14 +68,16 @@ class HistoryFragment : Fragment() {
                         if (result != null) {
                             when (result) {
                                 is Result.Loading -> {
-
+                                    binding.linearProgress.visibility = View.VISIBLE
                                 }
 
                                 is Result.Success -> {
+                                    binding.linearProgress.visibility = View.GONE
                                     setHistoryData(result.data.history)
                                 }
 
                                 is Result.Error -> {
+                                    binding.linearProgress.visibility = View.GONE
                                     Toast.makeText(
                                         requireActivity(),
                                         "Error: ${result.error}",

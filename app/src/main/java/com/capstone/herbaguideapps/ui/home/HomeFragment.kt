@@ -68,26 +68,6 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            historyViewModel.getHistory()
-            historyViewModel.historyResult.observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-
-                        }
-
-                        is Result.Success -> {
-                            showDataHistory(result.data.history)
-                        }
-
-                        is Result.Error -> {
-
-                        }
-                    }
-                }
-            }
-
-
             sessionViewModel.getSession().observe(viewLifecycleOwner) { session ->
                 binding.txtWelcome.text = getString(R.string.title_home_name, session.name)
 
@@ -133,6 +113,7 @@ class HomeFragment : Fragment() {
             clearSession()
         }
 
+        showDataHistory()
         showDataExplore()
 
         return root
@@ -187,7 +168,31 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun showDataHistory(list: List<HistoryItem>) {
+    private fun showDataHistory() {
+        lifecycleScope.launch {
+
+            historyViewModel.getHistory()
+            historyViewModel.historyResult.observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+
+                        }
+
+                        is Result.Success -> {
+                            setDataHistory(result.data.history)
+                        }
+
+                        is Result.Error -> {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setDataHistory(list: List<HistoryItem>) {
         val layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvHistory.layoutManager = layoutManager
@@ -256,5 +261,11 @@ class HomeFragment : Fragment() {
     private fun finishMainActivity() {
         val intent = Intent("finish_main_activity")
         LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showDataHistory()
+
     }
 }

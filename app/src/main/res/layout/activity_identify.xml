@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
@@ -74,7 +74,7 @@
                 tools:text="Akurasi: 60 %" />
 
             <TextView
-                android:id="@+id/title_desc"
+                android:id="@+id/txt_title_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -96,7 +96,7 @@
                 tools:text="@tools:sample/lorem" />
 
             <TextView
-                android:id="@+id/title_usability"
+                android:id="@+id/txt_title_usability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

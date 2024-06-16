@@ -31,7 +31,7 @@ interface ApiService {
     @GET("everything")
     fun topHeadline(
         @Query("apiKey") apikey: String,
-        @Query("q") q: String = "herbal+medicine",
+        @Query("q") q: String = "herbal",
         @Query("pageSize") pageSize: Int = 5,
         @Query("page") page: Int = 1
     ): Call<NewsResponse>

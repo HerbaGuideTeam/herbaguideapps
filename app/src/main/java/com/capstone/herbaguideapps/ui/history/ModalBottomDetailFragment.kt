@@ -45,6 +45,9 @@ class ModalBottomDetailFragment : BottomSheetDialogFragment() {
                 val percent = (historyItem.confidence * 100).toInt()
                 txtScore.text = "Score: $percent %"
 
+                txtTitleDesc.visibility = View.VISIBLE
+                txtTitleUsability.visibility = View.VISIBLE
+
                 val usabilityList: List<Usability> =
                     tanamanHerbal.mengobatiApa.map { mengobatiApaItem ->
                         Usability(

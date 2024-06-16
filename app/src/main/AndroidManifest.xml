@@ -46,6 +46,12 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Base.AppTheme"
+            tools:ignore="DiscouragedApi" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
