@@ -263,7 +263,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun finishMainActivity() {
-        val intent = Intent("finish_m ain_activity")
+        val intent = Intent("finish_main_activity")
         LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent)
     }
 
