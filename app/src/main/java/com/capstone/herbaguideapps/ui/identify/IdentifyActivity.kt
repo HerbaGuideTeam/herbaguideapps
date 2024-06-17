@@ -92,8 +92,6 @@ class IdentifyActivity : AppCompatActivity() {
                             val tanamanHerbal = result.data.prediction.tanamanHerbal
                             binding.txtName.text = tanamanHerbal.nama
 
-                            val percent = (result.data.confidence * 100).toInt()
-                            binding.txtScore.text = "Score: $percent %"
                             binding.txtDescription.text = tanamanHerbal.deskripsi
                             Glide.with(this)
                                 .load(tanamanHerbal.photoUrl)

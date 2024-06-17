@@ -113,10 +113,14 @@ class HomeFragment : Fragment() {
             clearSession()
         }
 
+        return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         showDataHistory()
         showDataExplore()
-
-        return root
     }
 
     private fun clearSession() {
@@ -259,13 +263,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun finishMainActivity() {
-        val intent = Intent("finish_main_activity")
+        val intent = Intent("finish_m ain_activity")
         LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent)
     }
 
     override fun onResume() {
         super.onResume()
         showDataHistory()
-
     }
 }

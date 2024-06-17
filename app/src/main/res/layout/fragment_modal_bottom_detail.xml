@@ -45,16 +45,6 @@
                 tools:text="@tools:sample/full_names" />
 
             <TextView
-                android:id="@+id/txt_score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="16sp"
-                tools:text="Score: 60 %" />
-
-            <TextView
                 android:id="@+id/txt_title_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,6 +53,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_description"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -85,6 +76,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_usability"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 

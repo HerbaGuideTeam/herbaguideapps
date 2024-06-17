@@ -53,10 +53,12 @@ class SplashActivity : AppCompatActivity() {
                 override fun onPreDraw(): Boolean {
                     sessionViewModel.getSession().observe(this@SplashActivity) { session ->
                         if (session.isLogin) {
+                            setupSplashExitAnimation()
                             MainActivity.start(this@SplashActivity)
                             content.viewTreeObserver.removeOnPreDrawListener(this)
                             finish()
                         } else {
+                            setupSplashExitAnimation()
                             WelcomeActivity.start(this@SplashActivity)
                             content.viewTreeObserver.removeOnPreDrawListener(this)
                             finish()
@@ -66,7 +68,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         )
-        setupSplashExitAnimation()
     }
 
     private fun setupSplashExitAnimation() {
@@ -78,8 +79,8 @@ class SplashActivity : AppCompatActivity() {
                 val alpha = ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f)
 
                 slideUp.interpolator = AnticipateInterpolator()
-                slideUp.duration = 500L
-                alpha.duration = 500L
+                slideUp.duration = 1000L
+                alpha.duration = 1000L
 
                 slideUp.doOnEnd {
                     splashScreenView.remove()

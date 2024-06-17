@@ -42,8 +42,6 @@ class ModalBottomDetailFragment : BottomSheetDialogFragment() {
 
                 txtName.text = tanamanHerbal.nama
                 txtDescription.text = tanamanHerbal.deskripsi
-                val percent = (historyItem.confidence * 100).toInt()
-                txtScore.text = "Score: $percent %"
 
                 txtTitleDesc.visibility = View.VISIBLE
                 txtTitleUsability.visibility = View.VISIBLE
