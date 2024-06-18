@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="430dp"
+        android:layout_height="291dp"
+        android:layout_gravity="top|left"
+        android:scaleType="centerInside"
+        android:src="@drawable/profile_image" />
+
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/img_rect"
         android:layout_width="match_parent"
@@ -73,8 +81,7 @@
         <TextView
             android:id="@+id/txt_name"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:includeFontPadding="false"
             android:maxLines="1"
@@ -86,12 +93,36 @@
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:singleLine="true"
             android:text="youremail@domain.com"
             android:textSize="14sp" />
+
+        <!-- Add buttons for profile actions -->
+
+        <Button
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:text="Edit Profile"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="32dp"
+            android:text="Logout"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp" />
+
     </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
