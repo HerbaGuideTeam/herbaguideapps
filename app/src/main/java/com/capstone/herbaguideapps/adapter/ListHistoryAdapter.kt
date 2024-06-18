@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.ItemListHistoryBinding
+import com.capstone.herbaguideapps.utlis.convertToIndonesianTime
 
 class ListHistoryAdapter :
     ListAdapter<HistoryItem, ListHistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -22,7 +23,7 @@ class ListHistoryAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(history: HistoryItem) {
             binding.txtTitle.text = history.tanamanHerbal.nama
-            binding.txtDate.text = history.createdAt
+            binding.txtDate.text = convertToIndonesianTime(history.createdAt)
             Glide.with(itemView)
                 .load(history.tanamanHerbal.photoUrl)
                 .into(binding.ivExplore)

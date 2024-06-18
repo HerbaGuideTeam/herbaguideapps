@@ -55,4 +55,6 @@
     <string name="gallery">Galeri</string>
     <string name="next">Lanjut</string>
     <string name="history_is_guest">Mau melihat riwayat scan anda?</string>
+    <string name="search">Search</string>
+    <string name="txt_search_hint">Mau cari history scan tanamanmu?</string>
 </resources>

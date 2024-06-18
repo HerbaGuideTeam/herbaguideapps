@@ -71,4 +71,8 @@ interface ApiService {
     @GET("gethistory")
     fun history(): Call<HistoryResponse>
 
+    @GET("search_history")
+    fun searchHistory(
+        @Query("plant_name") plant_name: String
+    ): Call<HistoryResponse>
 }

@@ -3,6 +3,8 @@ package com.capstone.herbaguideapps.ui.history
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstone.herbaguideapps.R
 import com.capstone.herbaguideapps.adapter.ListHistoryAdapter
 import com.capstone.herbaguideapps.data.Result
 import com.capstone.herbaguideapps.data.remote.response.HistoryItem
@@ -19,6 +22,7 @@ import com.capstone.herbaguideapps.session.SessionViewModel
 import com.capstone.herbaguideapps.ui.welcome.login.LoginActivity
 import com.capstone.herbaguideapps.utlis.factory.PredictViewModelFactory
 import com.capstone.herbaguideapps.utlis.factory.SessionViewModelFactory
+import com.google.android.material.search.SearchView
 import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
@@ -44,7 +48,20 @@ class HistoryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         getHistoryData()
+
+        binding.apply {
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { _, _, _ ->
+                    searchBar.setText(searchView.text)
+                    searchView.hide()
+                    historyViewModel.searchHistory(searchView.text.toString())
+                    false
+                }
+        }
 
         binding.btnLogin.setOnClickListener {
             LoginActivity.start(requireActivity())

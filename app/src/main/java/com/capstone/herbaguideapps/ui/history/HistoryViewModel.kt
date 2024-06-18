@@ -24,4 +24,13 @@ class HistoryViewModel(
             }
         }
     }
+
+    fun searchHistory(search: String) {
+        _historyResult.value = Result.Loading
+        viewModelScope.launch {
+            predictRepository.searchHistory(search) { result ->
+                _historyResult.postValue(result)
+            }
+        }
+    }
 }

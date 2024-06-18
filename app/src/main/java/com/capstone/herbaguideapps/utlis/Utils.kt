@@ -1,5 +1,6 @@
 package com.capstone.herbaguideapps.utlis
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.capstone.herbaguideapps.BuildConfig
 import java.io.ByteArrayOutputStream
@@ -17,8 +19,13 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 private val timeStamp: String = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
@@ -55,7 +62,6 @@ private fun getImageUriForPreQ(context: Context): Uri {
     )
 }
 
-
 fun reduceFileImage(file: File): File {
     val bitmap = BitmapFactory.decodeFile(file.path)
     var compressQuality = 100
@@ -85,4 +91,21 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     inputStream.close()
 
     return myFile
+}
+
+@SuppressLint("SimpleDateFormat")
+fun convertToIndonesianTime(utcTime: String): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+    val date = inputFormat.parse(utcTime)
+    val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    calendar.time = date
+
+    calendar.timeZone = TimeZone.getTimeZone("Asia/Jakarta")
+
+    val outputFormat = SimpleDateFormat("dd MMM yyyyy HH:mm")
+    outputFormat.timeZone = calendar.timeZone
+
+    return outputFormat.format(calendar.time)
 }
