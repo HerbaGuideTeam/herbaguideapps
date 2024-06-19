@@ -1,6 +1,7 @@
 package com.capstone.herbaguideapps.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.capstone.herbaguideapps.data.remote.response.HistoryItem
 import com.capstone.herbaguideapps.databinding.FragmentHomeBinding
 import com.capstone.herbaguideapps.session.SessionViewModel
 import com.capstone.herbaguideapps.ui.explore.ExploreViewModel
+import com.capstone.herbaguideapps.ui.explore.WebViewActivity
 import com.capstone.herbaguideapps.ui.history.HistoryViewModel
 import com.capstone.herbaguideapps.ui.history.ModalBottomDetailFragment
 import com.capstone.herbaguideapps.ui.identify.ModalBottomScanFragment
@@ -73,36 +75,6 @@ class HomeFragment : Fragment() {
 
                 if (session.isLogin && !session.isGuest) {
                     binding.layoutHistory.visibility = View.VISIBLE
-
-                    sessionViewModel.validateToken()
-                    sessionViewModel.authResult.observe(viewLifecycleOwner) { result ->
-                        if (result != null) {
-                            when (result) {
-                                is Result.Loading -> {
-                                    binding.linearProgress.visibility = View.VISIBLE
-                                }
-
-                                is Result.Success -> {
-                                    binding.linearProgress.visibility = View.GONE
-                                }
-
-                                is Result.Error -> {
-                                    binding.linearProgress.visibility = View.GONE
-
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "Sesi sudah berakhir",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                    sessionViewModel.logout()
-                                    WelcomeLoginActivity.start(requireActivity())
-                                    finishMainActivity()
-                                }
-                            }
-                        }
-
-                    }
                 } else {
                     binding.layoutHistory.visibility = View.GONE
                 }
@@ -238,11 +210,9 @@ class HomeFragment : Fragment() {
                             adapter.setOnItemClickCallback(object :
                                 GridExploreAdapter.OnItemClickCallback {
                                 override fun onItemClickCallBack(data: ArticlesItem) {
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "Article: ${data.title}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    val intent = Intent(requireActivity(), WebViewActivity::class.java)
+                                    intent.putExtra(WebViewActivity.EXTRA_URL, data.url)
+                                    startActivity(intent)
                                 }
                             })
                         }

@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/top_bar"
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:title="@string/title_history"
-            app:titleTextColor="?attr/colorPrimary" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/txt_search_hint"/>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/linearProgress"
@@ -26,6 +26,16 @@
             android:visibility="gone" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/txt_search_hint"
+        app:layout_anchor="@id/search_bar">
+
+    </com.google.android.material.search.SearchView>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

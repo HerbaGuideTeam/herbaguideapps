@@ -1,5 +1,6 @@
 package com.capstone.herbaguideapps.ui.explore
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +58,9 @@ class ExploreFragment : Fragment() {
         adapter.submitData(lifecycle, list)
         adapter.setOnItemClickCallback(object : ListExploreAdapter.OnItemClickCallback {
             override fun onItemClickCallBack(data: ArticlesItem) {
-
+                val intent = Intent(requireActivity(), WebViewActivity::class.java)
+                intent.putExtra(WebViewActivity.EXTRA_URL, data.url)
+                startActivity(intent)
             }
         })
     }

@@ -65,6 +65,30 @@ class PredictRepository private constructor(
         })
     }
 
+
+    fun searchHistory(search: String, onResult: (Result<HistoryResponse>) -> Unit) {
+        val client = apiService.searchHistory(search)
+        client.enqueue(object : Callback<HistoryResponse> {
+            override fun onResponse(
+                call: Call<HistoryResponse>,
+                response: Response<HistoryResponse>
+            ) {
+                if (response.isSuccessful) {
+                    onResult(Result.Success(response.body()!!))
+                    Log.d("PredictRepository", "onResponse: ${response.body()?.message}")
+                } else {
+                    onResult(Result.Error(response.errorBody()!!.string()))
+                    Log.d("PredictRepository", "onResponse: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
+                onResult(Result.Error(t.message.toString()))
+                Log.d("PredictRepository", "onFailure: ${t.message}")
+            }
+        })
+    }
+
     companion object {
         @Volatile
         private var instance: PredictRepository? = null

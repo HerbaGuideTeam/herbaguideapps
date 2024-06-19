@@ -18,6 +18,9 @@
         android:theme="@style/Base.AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".ui.explore.WebViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.welcome.SplashActivity"
             android:exported="true"
             android:theme="@style/Base.AppTheme.Splash">
@@ -45,7 +48,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="fullSensor"
@@ -60,8 +62,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-        <!-- Trigger Google Play services to install the backported photo picker module. -->
+        </provider> <!-- Trigger Google Play services to install the backported photo picker module. -->
         <!-- suppress AndroidDomInspection -->
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
