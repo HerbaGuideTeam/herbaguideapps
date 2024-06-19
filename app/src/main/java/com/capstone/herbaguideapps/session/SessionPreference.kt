@@ -43,8 +43,12 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
     }
 
     suspend fun logout() {
-        dataStore.edit { preferences ->
-            preferences.clear()
+        dataStore.edit { preference ->
+            preference[NAME_KEY] = ""
+            preference[EMAIL_KEY] = "session.email"
+            preference[STATE_KEY] = false
+            preference[TOKEN_KEY] = ""
+            preference[GUEST_KEY] = false
         }
     }
 

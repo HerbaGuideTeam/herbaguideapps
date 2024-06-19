@@ -30,12 +30,12 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val historyViewModel by viewModels<HistoryViewModel> {
-        PredictViewModelFactory.getInstance(requireActivity())
+        PredictViewModelFactory.getInstance(requireContext())
     }
 
 
     private val sessionViewModel by viewModels<SessionViewModel> {
-        SessionViewModelFactory.getInstance(requireActivity())
+        SessionViewModelFactory.getInstance(requireContext())
     }
 
     override fun onCreateView(

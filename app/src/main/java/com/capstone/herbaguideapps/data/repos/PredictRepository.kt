@@ -1,6 +1,5 @@
 package com.capstone.herbaguideapps.data.repos
 
-import android.util.Log
 import com.capstone.herbaguideapps.data.Result
 import com.capstone.herbaguideapps.data.remote.api.ApiService
 import com.capstone.herbaguideapps.data.remote.response.HistoryResponse
@@ -51,16 +50,13 @@ class PredictRepository private constructor(
             ) {
                 if (response.isSuccessful) {
                     onResult(Result.Success(response.body()!!))
-                    Log.d("PredictRepository", "onResponse: ${response.body()?.message}")
                 } else {
                     onResult(Result.Error(response.errorBody()!!.string()))
-                    Log.d("PredictRepository", "onResponse: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
                 onResult(Result.Error(t.message.toString()))
-                Log.d("PredictRepository", "onFailure: ${t.message}")
             }
         })
     }
@@ -75,16 +71,13 @@ class PredictRepository private constructor(
             ) {
                 if (response.isSuccessful) {
                     onResult(Result.Success(response.body()!!))
-                    Log.d("PredictRepository", "onResponse: ${response.body()?.message}")
                 } else {
                     onResult(Result.Error(response.errorBody()!!.string()))
-                    Log.d("PredictRepository", "onResponse: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
                 onResult(Result.Error(t.message.toString()))
-                Log.d("PredictRepository", "onFailure: ${t.message}")
             }
         })
     }

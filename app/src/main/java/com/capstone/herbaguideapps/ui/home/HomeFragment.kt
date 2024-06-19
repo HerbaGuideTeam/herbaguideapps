@@ -1,7 +1,6 @@
 package com.capstone.herbaguideapps.ui.home
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,19 +39,19 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val sessionViewModel by viewModels<SessionViewModel> {
-        SessionViewModelFactory.getInstance(requireActivity())
+        SessionViewModelFactory.getInstance(requireContext())
     }
 
     private val loginViewModel by viewModels<LoginViewModel> {
-        AuthViewModelFactory.getInstance(requireActivity())
+        AuthViewModelFactory.getInstance(requireContext())
     }
 
     private val exploreViewModel by viewModels<ExploreViewModel> {
-        ViewModelFactory.getInstance(requireActivity())
+        ViewModelFactory.getInstance(requireContext())
     }
 
     private val historyViewModel by viewModels<HistoryViewModel> {
-        PredictViewModelFactory.getInstance(requireActivity())
+        PredictViewModelFactory.getInstance(requireContext())
     }
 
     override fun onCreateView(
@@ -117,13 +116,13 @@ class HomeFragment : Fragment() {
                                     result.data.message,
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                WelcomeLoginActivity.start(requireActivity())
+                                WelcomeLoginActivity.start(requireContext())
                                 finishMainActivity()
                             }
 
                             is Result.Error -> {
                                 binding.linearProgress.visibility = View.GONE
-                                Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(), result.error, Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
@@ -131,7 +130,7 @@ class HomeFragment : Fragment() {
 
                 } else if (session.isGuest) {
                     sessionViewModel.logout()
-                    WelcomeLoginActivity.start(requireActivity())
+                    WelcomeLoginActivity.start(requireContext())
                     finishMainActivity()
                 }
             }
@@ -170,7 +169,7 @@ class HomeFragment : Fragment() {
 
     private fun setDataHistory(list: List<HistoryItem>) {
         val layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvHistory.layoutManager = layoutManager
 
         val adapter = GridHistoryAdapter()
@@ -191,7 +190,7 @@ class HomeFragment : Fragment() {
 
     private fun showDataExplore() {
         val layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvExplore.layoutManager = layoutManager
 
         lifecycleScope.launch {
@@ -210,7 +209,7 @@ class HomeFragment : Fragment() {
                             adapter.setOnItemClickCallback(object :
                                 GridExploreAdapter.OnItemClickCallback {
                                 override fun onItemClickCallBack(data: ArticlesItem) {
-                                    val intent = Intent(requireActivity(), WebViewActivity::class.java)
+                                    val intent = Intent(requireContext(), WebViewActivity::class.java)
                                     intent.putExtra(WebViewActivity.EXTRA_URL, data.url)
                                     startActivity(intent)
                                 }
@@ -219,7 +218,7 @@ class HomeFragment : Fragment() {
 
                         is Result.Error -> {
                             Toast.makeText(
-                                requireActivity(),
+                                requireContext(),
                                 "Hottest News Error: ${result.error}",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -234,7 +233,7 @@ class HomeFragment : Fragment() {
 
     private fun finishMainActivity() {
         val intent = Intent("finish_main_activity")
-        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent)
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
     }
 
     override fun onResume() {

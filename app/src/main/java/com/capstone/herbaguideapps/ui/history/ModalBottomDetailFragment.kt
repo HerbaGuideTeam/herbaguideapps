@@ -59,7 +59,7 @@ class ModalBottomDetailFragment : BottomSheetDialogFragment() {
     }
 
     private fun setUsabilityData(usability: List<Usability>) {
-        val layoutManager = LinearLayoutManager(requireActivity())
+        val layoutManager = LinearLayoutManager(requireContext())
         binding.rvUsability.layoutManager = layoutManager
 
         val adapter = ExpandUsabilityAdapter()

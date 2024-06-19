@@ -22,7 +22,7 @@ class ExploreFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val exploreViewModel by viewModels<ExploreViewModel> {
-        ViewModelFactory.getInstance(requireActivity())
+        ViewModelFactory.getInstance(requireContext())
     }
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class ExploreFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val layoutManager = LinearLayoutManager(requireActivity())
+        val layoutManager = LinearLayoutManager(requireContext())
         binding.rvExplore.layoutManager = layoutManager
 
         lifecycleScope.launch {
@@ -58,7 +58,7 @@ class ExploreFragment : Fragment() {
         adapter.submitData(lifecycle, list)
         adapter.setOnItemClickCallback(object : ListExploreAdapter.OnItemClickCallback {
             override fun onItemClickCallBack(data: ArticlesItem) {
-                val intent = Intent(requireActivity(), WebViewActivity::class.java)
+                val intent = Intent(requireContext(), WebViewActivity::class.java)
                 intent.putExtra(WebViewActivity.EXTRA_URL, data.url)
                 startActivity(intent)
             }
