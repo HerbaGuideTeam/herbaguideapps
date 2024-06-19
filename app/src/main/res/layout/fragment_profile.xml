@@ -100,7 +100,7 @@
             android:text="youremail@domain.com"
             android:textSize="14sp" />
 
-        <!-- Add buttons for profile actions -->
+
 
         <Button
             android:id="@+id/btn_edit_profile"
