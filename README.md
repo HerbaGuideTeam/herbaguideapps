@@ -1,4 +1,4 @@
-# HerbaGuideApps
+# HerbaGuide Apps
 
 HerbaGuideApps is a mobile application designed to help users identify and learn about various herbs. This repository contains the source code for the application.
 
@@ -7,6 +7,11 @@ HerbaGuideApps is a mobile application designed to help users identify and learn
 - Herb identification using images
 - Detailed information about each herb
 - User-friendly interface
+
+## Prerequisites
+
+- Android Studio version Jellyfish 2023.3.1 or higher
+- Android SDK version 24 or higher
 
 ## Installation
 
